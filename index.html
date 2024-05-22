@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<!-- <meta name="theme-color" content="#ffffff"> -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222032" media="(prefers-color-scheme: dark)">
+<title>NaboGaming - Cheza Games Kwa Faida</title>
+    <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+  import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+const firebaseConfig = {
+    apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
+    authDomain: "register-71bde.firebaseapp.com",
+    databaseURL: "https://register-71bde-default-rtdb.firebaseio.com",
+    projectId: "register-71bde",
+    storageBucket: "register-71bde.appspot.com",
+    messagingSenderId: "412548441298",
+    appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b",
+    measurementId: "G-0FVNTD9W48"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  auth.languageCode = "en";
+  const provider = new GoogleAuthProvider();
+
+  // Function to handle user sign-in
+  const signInWithGoogle = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      console.log(user);
+      window.location.href = "dashmain.html";
+    } catch (error) {
+      console.error(`Error during sign-in: ${error.code} - ${error.message}`);
+    }
+  };
+
+  // Check if user is already signed in and redirect to dashboard
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      window.location.href = "dashmain.html";
+    }
+  });
+
+  // Attach click event listener to Google login button
+  document.getElementById("google").addEventListener("click", signInWithGoogle);
+</script>
+
+<meta name="description" content="Unic – NFT Marketplace PWA Mobile Template">
+<meta name="keywords"
+content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, cordova, phonegap, mobile, html, nft, store, marketplace, pwa" />
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="images/favicon/icon-32x32.png" sizes="32x32">
+<!-- IOS SUPPORT -->
+<link rel="apple-touch-icon" href="images/favicon/icon-96x96.png">
+<!-- CSS FILES -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/bootstrap-icons.css">
+<link rel="stylesheet" href="assets/css/remixicon.min.css">
+<link rel="stylesheet" href="assets/vendors/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="assets/vendors/zuck_stories/zuck.min.css">
+<link rel="manifest" href="_manifest.json" />
+
+
+</head>
+
+<body>
+<!-- ===================================
+START LODAER PAGE
+==================================== -->
+<section class="loader-page" id="loaderPage">
+<div class="spinner_flash"></div>
+</section>
+
+<!-- ===================================
+START FIXED BACKGROUND IMAGE
+==================================== -->
+<section class="bg-gradient-started">
+<div class="bg-white"></div>
+</section>
+
+<!-- START WRAPPER -->
+<div id="wrapper">
+<!-- START CONTENT -->
+<div id="content">
+<!-- ===================================
+START THE HEADER
+==================================== -->
+<header class="default heade-sticky bg-transparent header-light">
+<div class="un-item-logo">
+
+</div>
+<div class="un-block-right">
+<!-- menu-sidebar -->
+<div class="menu-sidebar">
+<button type="button" style="background-color: rgba(0, 0, 0, 0);" name="sidebarMenu" aria-label="sidebarMenu" class="btn"
+data-bs-toggle="modal" data-bs-target="#mdllSidebar-guest">
+<svg xmlns="http://www.w3.org/2000/svg" width="19" height="9.3" viewBox="0 0 19 9.3">
+<g id="Group_8081" data-name="Group 8081" transform="translate(-329 -37)">
+<rect id="Rectangle_3986" data-name="Rectangle 3986" width="19" height="2.3"
+rx="1.15" transform="translate(329 37)" fill="black" />
+<rect id="Rectangle_3987" data-name="Rectangle 3987" width="19" height="2.3"
+rx="1.15" transform="translate(329 44)" fill="black" />
+</g>
+</svg>
+</button>
+</div>
+</div>
+</header>
+<!-- ===================================
+START INFO ABOUT THE TEMPLATE
+==================================== -->
+<section class="un-info-template">
+<br><br>
+<section class="un__listPages_started margin-t-30">
+<div class="content">
+<div class="title">
+<h3 style="text-align: left;font-size: 20px;">Karibu NaboGaming BetPlace</h3>
+<p  style="text-align: left;">
+Cheza Games Uzipendazo <span>Kwenye Simu Yako</span>,Tukutaftie  <span>Ushindani Na Wachezaji </span>Wenye Kiwango Katika Games, Na Utengeneze Historia Pia Shinda Zawadi Kibao.
+</p>
+</div>
+
+</div>
+</section>
+
+<div class="block-numbers">
+<div class="pages">
+<h2>30+</h2>
+<p>Akaunti Zilizojiunga Nasi</p>
+</div>
+<div class="dividar-y"></div>
+<div class="components">
+<h2>1k+</h2>
+<p>Tiktok Followers</p>
+</div>
+</div>
+</section>
+<!-- ===================================
+START PAGES LIST
+==================================== -->
+<section class="un__listPages_started margin-t-30">
+<div class="content">
+<div class="title" style="text-align: left;">
+<h3>Sisi Ni Nani?</h3>
+<p>
+NaboGaming BetPlace, <span>Kampuni Namba #1</span> Nchini Tanzania Kwa Kujihusisha Na <span>Online Gamers</span> Wa Hapahapa Nchini. Game Tunazojihusisha Nazo Ni Hizi Zifuatazo
+</p>
+</div>
+<div class="un-navMenu-default style_glass px-0">
+<ul class="nav">
+<li class="nav-item" style="margin-bottom: 10px;">
+<a id="downloadButton" class="nav-link background">
+<div class="item-content-link">
+<div class="icon">
+<img src="pubgmobile.webp" style="border-radius: 4px;" alt="">
+</div>
+<h3 class="link-title">PUBG MOBILE </h3>
+</div>
+<div class="other-cc">
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+
+<li class="nav-item" style="margin-bottom: 10px;">
+<a id="downloadButton2" class="nav-link background">
+<div class="item-content-link">
+<div class="icon">
+<img src="freefire.webp" alt="" style="border-radius: 4px;">
+</div>
+<h3 class="link-title">GARENA FREEFIRE</h3>
+</div>
+<div class="other-cc">
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item" style="margin-bottom: 10px;">
+<a id="downloadButton3" class="nav-link background">
+<div class="item-content-link">
+<div class="icon">
+<img src="maleoapp.webp" alt="">
+</div>
+<h3 class="link-title">MALEO BUSSID</h3>
+</div>
+<div class="other-cc">
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- ===================================
+START THE FOOTER - BUTTONS
+==================================== -->
+<section class="bloack-get-started">
+<div class="un-navMenu-default p-0">
+<ul class="nav">
+<li class="nav-item">
+<a href="https://themeforest.net/item/unic-nft-mobile-template/36083774" target="_blank"
+class="nav-link bg-transparent">
+<div class="item-content-link">
+<div class="icon text-white">
+<i class="ri-whatsapp-line"></i>
+</div>
+<h3 class="link-title text-white">Jiunge Na Group Letu Whatsapp</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item">
+<a href="homepage.html" class="nav-link bg-primary">
+<div class="item-content-link">
+<div class="icon text-white">
+<i class="ri-facebook-fill"></i>
+</div>
+<h3 class="link-title text-white">Tufollow Kurasa Yetu Facebook</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text text-white"></span>
+<div class="icon-arrow text-white">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+</section>
+<!-- ===================================
+START THE COPYRIGHT
+==================================== -->
+<section class="copyright-mark">
+<div class="content">
+<img class="logo-gray" src="logo2.gif" alt="image">
+<p>Copyright © Nabogaming 2024</p>
+</div>
+</section>
+
+</div>
+
+</div>
+<!-- ===================================
+START THE MODAL UPLOAD
+==================================== -->
+<div class="modal transition-bottom screenFull defaultModal mdlladd__rate fade" id="mdllUploadItem" tabindex="-1"
+aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h1 class="title-modal">Upload Item</h1>
+<button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+<i class="ri-close-fill"></i>
+</button>
+</div>
+<div class="modal-body">
+<div class="content-upload-item text-center">
+<p>
+Choose <span>"Single"</span> if you want your collectible to be one of a kind or
+<span>"Multiple"</span>
+if you want
+to sell one collectible multiple times
+</p>
+<div class="grid_buttonUpload">
+<a href="page-create-single.html" class="btn btn-create bg-primary text-white margin-b-20">
+Create Single
+</a>
+<a href="page-create-multi.html"
+class="btn btn-create bg-white border border-solid border-snow text-dark">
+Create Multiple
+</a>
+</div>
+</div>
+
+</div>
+<div class="modal-footer border-0">
+<div class="env-pb"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- ===================================
+START THE MODAL ADD ETH
+==================================== -->
+<div class="modal transition-bottom screenFull defaultModal mdlladd__rate fade" id="mdllAddETH" tabindex="-1"
+aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<h1 class="title-modal">Add ETH to your wallet</h1>
+<button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+<i class="ri-close-fill"></i>
+</button>
+</div>
+<div class="modal-body">
+<div class="content-upload-item">
+<p class="text-center">
+Select one of the options to deposit <br> ETH to your wallet
+</p>
+<div class="un-navMenu-default margin-t-30 p-0">
+<ul class="nav flex-column">
+<li class="nav-item mb-3">
+<a class="nav-link effect-click" href="javascript: void(0)">
+<div class="item-content-link">
+<div class="icon color-text w-auto">
+<i class="ri-exchange-box-line"></i>
+</div>
+<h3 class="link-title">Deposit from an exchange</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item mb-0">
+<a class="nav-link effect-click" href="javascript: void(0)">
+<div class="item-content-link">
+<div class="icon color-text w-auto">
+<i class="ri-bank-card-line"></i>
+</div>
+<h3 class="link-title">Buy with card</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+<div class="modal-footer border-0">
+<div class="env-pb"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- ===================================
+START THE MODAL SIDEBAR MENU - CONNECTED
+==================================== -->
+<div class="modal sidebarMenu -left fade" id="mdllSidebar-connected" tabindex="-1"
+aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+<div class="modal-content">
+<div class="modal-header d-block pb-1">
+
+<!-- un-user-profile -->
+<div class="un-user-profile">
+<div class="image_user">
+<picture>
+<source srcset="images/avatar/11.webp" type="image/webp">
+<img src="images/avatar/11.jpg" alt="image">
+</picture>
+</div>
+<div class="text-user">
+<h3>Rocco Gavin</h3>
+<p>0xe3oowe0b88...E162</p>
+</div>
+</div>
+
+<button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+<i class="ri-close-fill"></i>
+</button>
+
+<!-- cover-balance -->
+<div class="cover-balance">
+<div class="un-balance">
+<div class="content-balance">
+<div class="head-balance">
+<h4>My Balance</h4>
+<a class="btn link-addBalance" data-bs-toggle="modal" data-bs-dismiss="modal"
+data-bs-target="#mdllAddETH">
+<i class="ri-add-fill"></i>
+</a>
+</div>
+<p class="no-balance">3,650 ETH</p>
+</div>
+</div>
+<button type="button" class="btn btn-sm-size bg-white text-dark rounded-pill"
+data-bs-toggle="modal" data-bs-dismiss="modal" data-bs-target="#mdllUploadItem">
+Create
+</button>
+</div>
+
+
+</div>
+<div class="modal-body">
+<ul class="nav flex-column -active-links">
+<li class="nav-item">
+<a class="nav-link" href="homepage.html">
+<div class="icon_current">
+<i class="ri-compass-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-compass-fill"></i>
+</div>
+<span class="title_link">Discover</span>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="app-homes.html">
+<div class="icon_current">
+<i class="ri-home-5-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-home-5-fill"></i>
+</div>
+<span class="title_link">Home Styles</span>
+
+<span class="xs-badge">8</span>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="app-pages.html">
+<div class="icon_current">
+<i class="ri-pages-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-pages-fill"></i>
+</div>
+<span class="title_link">Page Packs</span>
+
+<div class="badge-circle">
+<span class="doted_item"></span>
+</div>
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="app-components.html">
+<div class="icon_current">
+<i class="ri-layout-2-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-layout-2-fill"></i>
+</div>
+<span class="title_link">Components</span>
+
+</a>
+</li>
+
+<label class="title__label">other</label>
+
+<li class="nav-item">
+<a class="nav-link" href="page-help.html">
+<div class="icon_current">
+<i class="ri-questionnaire-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-questionnaire-fill"></i>
+</div>
+<span class="title_link">Help Center</span>
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="page-about.html">
+<div class="icon_current">
+<i class="ri-file-info-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-file-info-fill"></i>
+</div>
+<span class="title_link">About Unic.</span>
+</a>
+</li>
+
+<li class="nav-item">
+<a href="homepage.html" class="nav-link">
+<div class="icon_current">
+<i class="ri-logout-box-r-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-logout-box-r-fill"></i>
+</div>
+<span class="title_link">Sign Out</span>
+</a>
+</li>
+
+</ul>
+</div>
+<div class="modal-footer">
+<div class="em_darkMode_menu">
+<label class="text" for="switchDark">
+<h3>Dark Mode</h3>
+<p>Browsing in night mode</p>
+</label>
+<label class="switch_toggle toggle_lg theme-switch" for="switchDark">
+<input type="checkbox" class="switchDarkMode theme-switch" id="switchDark"
+aria-describedby="switchDark">
+<span class="handle"></span>
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ===================================
+START THE MODAL SIDEBAR MENU - guest
+==================================== -->
+<div class="modal sidebarMenu -left -guest fade" id="mdllSidebar-guest" tabindex="-1"
+aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-dialog-scrollable">
+<div class="modal-content">
+<div class="modal-header">
+<div class="welcome_em">
+<h2>Karibu NaboGaming<span>.</span></h2>
+<p>
+Jiunge nasi ucheze mashindano mbalimbali, kujiunga na mitaa ya games unazocheza na vingine vingi zaidi.
+</p>
+<a id="google" class="btn btn-md-size bg-primary text-white rounded-pill">
+Jiunge Nasi Sasa
+</a>
+</div>
+<button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+<i class="ri-close-fill"></i>
+</button>
+</div>
+<div class="modal-body">
+<ul class="nav flex-column -active-links">
+<li class="nav-item">
+<a class="nav-link  active" href="index.html">
+<div class="icon_current">
+<i class="ri-home-5-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-home-5-fill"></i>
+</div>
+<span class="title_link">Nyumbani</span>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" style="color: rgb(177, 174, 174);" href="#" data-bs-toggle="modal" data-bs-target="#mdllShareCollectibles">
+<div class="icon_current">
+<i class="ri-questionnaire-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-questionnaire-fill"></i>
+</div>
+<span class="title_link">Kuhusu NaboGaming</span>
+<div class="badge-circle">
+<span class="doted_item"></span>
+</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#mdllShareCollectibles">
+<div class="icon_current">
+<i class="ri-pages-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-pages-fill"></i>
+</div>
+<span class="title_link">Sheria Na Kanuni</span>
+</a>
+</li>
+
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#mdllShareCollectibles">
+<div class="icon_current">
+<i class="ri-layout-2-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-layout-2-fill"></i>
+</div>
+<span class="title_link">Matokeo</span>
+
+</a>
+</li>
+
+<label class="title__label">MENGINEYO</label>
+
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#mdllShareCollectibles">
+<div class="icon_current">
+<i class="ri-questionnaire-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-questionnaire-fill"></i>
+</div>
+<span class="title_link">Michezo Na Matukio</span>
+</a>
+</li>    
+<li class="nav-item">
+<a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#mdllShareCollectibles">
+<div class="icon_current">
+<i class="ri-file-info-line"></i>
+</div>
+<div class="icon_active">
+<i class="ri-file-info-fill"></i>
+</div>
+<span class="title_link">Kipi Kipya?</span>
+<span class="xs-badge" style="color: green;">v2.0 </span>
+</a>
+</li>
+</ul>
+</div>  
+<div class="modal-footer" style="background-color: black;">
+<div class="em_darkMode_menu">
+<label class="text" for="switchDark2">
+<h3 style="color:white;">Tufollow NaboGaming Tiktok</h3>
+<p>Jiunge Na Livestream Zote TikTok</p>
+</label>
+<label class="switch_toggle toggle_lg theme-switch">
+<img src="tiktok.png" height="40" width="40">
+</label>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- ===================================
+START STATUS CONNECTION
+==================================== -->
+<div class="d-flex justify-content-center">
+<div class="toast status-connection" role="alert" aria-live="assertive" aria-atomic="true"></div>
+</div>
+
+<!-- ===================================
+START THE SHARE NFT MODAL
+==================================== -->
+<div class="modal transition-bottom screenFull defaultModal mdlladd__rate fade" id="mdllShareCollectibles"
+tabindex="-1" aria-labelledby="modalShareCollectibles" aria-hidden="true">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-header">
+<div class="item-shared">
+<div class="image-items">
+<picture>
+<source srcset="images/other/1.webp" type="image/webp">
+<img class="user-img" src="images/other/1.jpg" alt="">
+</picture>
+</div>
+<div class="txt">
+<h1>Galaxy on Earth</h1>
+<p>unic.com</p>
+</div>
+</div>
+<button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
+<i class="ri-close-fill"></i>
+</button>
+</div>
+<div class="modal-body">
+<div class="content-share-socials">
+
+<div class="un-navMenu-default p-0">
+
+
+<ul class="nav flex-column">
+<li class="nav-item">
+<a class="nav-link" style="background-color: black;" href="javascript: void(0)">
+<div class="item-content-link">
+<div class="icon-svg">
+<img src="images/icons/google.svg" alt="">
+</div>
+<h3 class="link-title" style="color: white;">Tumia Google Account</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link facebook" href="javascript: void(0)" style="border:1px solid blue">
+<div class="item-content-link">
+<div class="icon-svg">
+<img src="images/icons/facebook.svg" alt="">
+</div>
+<h3 class="link-title">Tumia Facebook Account</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+</ul>
+</div>
+
+</div>
+
+</div>
+<div class="modal-footer border-0">
+<div class="env-pb"></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+document.getElementById("downloadButton").addEventListener("click", function() {
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var ram = navigator.deviceMemory;
+if (/android/i.test(userAgent)) {
+if (ram < 3) {
+alert("Simu Yako Inaonekana Kuwa Na Ram Pungufu Ya 3GB, Pubg Mobile Inaweza Isicheze Kwa Asilimia 100% Kwenye Simu Yako...Je, Unataka Uendelee Kudownload Gemu?!");
+window.location.href = "https://play.google.com/store/apps/details?id=com.tencent.ig&hl=en";
+} else {
+window.location.href = "https://play.google.com/store/apps/details?id=com.tencent.ig&hl=en";
+}
+} else if (/iPad|iPhone|iPod/i.test(userAgent)) {
+window.location.href = "https://apps.apple.com/us/app/pubg-mobile/id1330123889";
+} else if (/Windows/i.test(userAgent)) {
+window.location.href = "https://www.pubg.com/en-us/";
+} else if (/Linux/i.test(userAgent)) {
+window.location.href = "https://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
+} else if (/Mac/i.test(userAgent)) {
+window.location.href = "https://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
+} else {
+alert("Samahani, Inahitaji Uwe Na Kifaa Halali Ili Uweze Kucheza Gemu Hili....Ahsante Kwa Uelewa Wako");
+}
+});
+</script>
+<script>
+document.getElementById("downloadButton2").addEventListener("click", function() {
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var ram = navigator.deviceMemory;
+if (/android/i.test(userAgent)) {
+if (ram < 2) {
+alert("Simu Yako Inaonekana Kuwa Na Ram Pungufu Ya 2GB, Garena Freefire Inaweza Isicheze Kwa Asilimia 100% Kwenye Simu Yako...Je, Unataka Uendelee Kudownload Gemu?!");
+window.location.href = "https://play.google.com/store/apps/details?id=com.tencent.ig&hl=en";
+} else {
+window.location.href = "https://play.google.com/store/apps/details?id=com.tencent.ig&hl=en";
+}
+} else if (/iPad|iPhone|iPod/i.test(userAgent)) {
+window.location.href = "https://apps.apple.com/us/app/pubg-mobile/id1330123889";
+} else if (/Windows/i.test(userAgent)) {
+window.location.href = "https://www.pubg.com/en-us/";
+} else if (/Linux/i.test(userAgent)) {
+window.location.href = "https://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
+} else if (/Mac/i.test(userAgent)) {
+window.location.href = "https://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
+} else {
+alert("Samahani, Inahitaji Uwe Na Kifaa Halali Ili Uweze Kucheza Gemu Hili....Ahsante Kwa Uelewa Wako");
+}
+});
+</script>
+<script>
+document.getElementById("downloadButton3").addEventListener("click", function() {
+var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+var ram = navigator.deviceMemory;
+if (/android/i.test(userAgent)) {
+if (ram < 3) {
+alert("Simu Yako Inaonekana Kuwa Na Ram Pungufu Ya 3GB, Maleo BUSSID Inaweza Isicheze Kwa Asilimia 100% Kwenye Simu Yako...Je, Unataka Uendelee Kudownload Gemu?!");
+window.location.href = "https://play.google.com/store/apps/details?id=com.tencent.ig&hl=en";
+} else {
+window.location.href = "https://play.google.com/store/apps/details?id=com.tencent.ig&hl=en";
+}
+} else if (/iPad|iPhone|iPod/i.test(userAgent)) {
+window.location.href = "https://apps.apple.com/us/app/pubg-mobile/id1330123889";
+} else if (/Windows/i.test(userAgent)) {
+window.location.href = "https://www.pubg.com/en-us/";
+} else if (/Linux/i.test(userAgent)) {
+window.location.href = "https://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
+} else if (/Mac/i.test(userAgent)) {
+window.location.href = "https://store.steampowered.com/app/578080/PLAYERUNKNOWNS_BATTLEGROUNDS/";
+} else {
+alert("Samahani, Inahitaji Uwe Na Kifaa Halali Ili Uweze Kucheza Gemu Hili....Ahsante Kwa Uelewa Wako");
+}
+});
+</script>
+<!-- JS FILES -->
+<script src="assets/vendors/zuck_stories/zuck.min.js"></script>
+<script src="assets/vendors/smoothscroll/smoothscroll.min.js"></script>
+<script src="assets/vendors/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendors/nouislider/nouislider.min.js"></script>
+<script src="assets/vendors/nouislider/wNumb.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/custom.js"></script>
+<!-- PWA APP SERVICE REGISTRATION AND WORKS JS -->
+<script src="assets/js/pwa-services.js"></script>
+</body>
+
+</html>

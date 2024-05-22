@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles/index.css">
+<title>YouTube Clone</title>
+<style>
+/* Basic styling for the video container */
+.youtube-video-container {
+position: sticky;
+top: 0;
+background-color: #000; /* Set a background color for the video container */
+overflow: hidden;
+width: 100%;
+max-width: 800px; /* Adjust as needed */
+margin: 0 auto;
+}
+
+.youtube-video-container::after {
+display: block;
+content: "";
+padding-top: 56.25%; /* 16:9 aspect ratio for responsive videos */
+}
+
+.youtube-video-container iframe {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
+
+/* Styling for the content above the video */
+.content-above-video {
+background-color: #f9f9f9;
+padding: 20px;
+border-bottom: 1px solid #ddd;
+}
+
+/* Additional styling for other elements (e.g., sidebar, header) */
+/* Customize these styles according to your design */
+</style>
+</head>
+<body>
+<header class="header">
+<!-- Add YouTube logo, search box, and navigation icons here -->
+</header>
+<main>
+<div class="side-bar">
+<!-- Sidebar content (e.g., trending videos, subscriptions) -->
+</div>
+<div class="content">
+<div class="content-above-video">
+<!-- Add your news content here -->
+<h2>Breaking News</h2>
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit....</p>
+</div>
+<div class="youtube-video-container">
+<iframe src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+</div>
+<div class="comments-section">
+<!-- Add comments, video description, and other details here -->
+<h2>Comments</h2>
+<ul>
+<li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li>
+<li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li><li>User 1: Great video!</li>
+<li>User 2: Thanks for sharing.</li>
+<!-- Add more comments dynamically -->
+</ul>
+</div>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firebase Performance Optimization</title>
+  <script defer type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+    import { getDatabase, ref, query, limitToFirst, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+    
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
+      authDomain: "register-71bde.firebaseapp.com",
+      projectId: "register-71bde",
+      storageBucket: "register-71bde.appspot.com",
+      messagingSenderId: "412548441298",
+      appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+
+    // Handle authentication state
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log("User is signed in:", user);
+        fetchData();
+      } else {
+        console.log("No user is signed in.");
+      }
+    });
+
+    // Fetch data efficiently
+    function fetchData() {
+      const dbRef = ref(db, 'path/to/data');
+      const dbQuery = query(dbRef, limitToFirst(10));
+      onValue(dbQuery, (snapshot) => {
+        const data = snapshot.val();
+        console.log("Fetched data:", data);
+        // Process data
+      }, (error) => {
+        console.error("Error fetching data:", error);
+      });
+    }
+  </script>
+</head>
+<body>
+  <div id="content">Loading...</div>
+</body>
+</html>
+
