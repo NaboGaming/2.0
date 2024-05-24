@@ -8,18 +8,73 @@ content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, 
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
-
+<!-- <meta name="theme-color" content="#ffffff"> -->
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222032" media="(prefers-color-scheme: dark)">
 <title>GAME_ON NaboGaming</title>
 <meta name="description" content="Unic – NFT Marketplace PWA Mobile Template">
 <meta name="keywords"
 content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, cordova, phonegap, mobile, html, nft, store, marketplace, pwa" />
 <!-- FAVICON -->
-<link rel="icon" type="image/png" href="nabo.jpg" sizes="32x32">
+<link rel="icon" type="image/png" href="images/favicon/icon-32x32.png" sizes="32x32">
 <!-- IOS SUPPORT -->
-<link rel="apple-touch-icon" href="nabo.jpg">
+<link rel="apple-touch-icon" href="images/favicon/icon-96x96.png">
 <!-- CSS FILES -->
 
 <style>
+.comment-section {
+    width: 450px;
+    padding: 20px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+}
+
+.comment-content {
+    max-width: calc(100% - 55px);
+}
+
+.username {
+    font-weight: bold;
+    font-size: 14px;
+    margin-right: 5px;
+    color: #333;
+}
+
+.comment-text {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.comment-footer {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+    font-size: 12px;
+    color: #888;
+}
+
+.comment-footer .reply {
+    cursor: pointer;
+    color: #0066cc;
+}
+
+.comment-footer .reply:hover {
+    text-decoration: underline;
+}
+
 .video-cover {
 width: 100px;
 height: 60px;
@@ -110,12 +165,14 @@ rx="1.15" transform="translate(329 44)" fill="black" />
 <h2>Breaking News</h2>
 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit....</p>
 </div>-->
+<!-- Video Player and Custom Controls -->
 <div class="youtube-video-container">
 <video id="videoPlayer" controls>
 <source src="v.mp4" type="video/mp4">
 Your browser does not support the video tag.
 </video>
 </div>
+
 <div class="comments-section">
 <section class="un-creator-ptofile">
 <!-- head -->
@@ -124,8 +181,9 @@ Your browser does not support the video tag.
 <div class="d-flex align-items-center">
 
 <div class="text">
-<h3>UTANGULIZI GAME_ON</h3>
-<p>Karibu Katika Game_On [StreaminG]</p>
+<h3>Karibu NaboGaming BetPlace</h3>
+<p>Cheza Games Uzipendazo <span>Kwenye Simu Yako</span>,Tukutaftie  <span>Ushindani Na Wachezaji </span>Wenye Kiwango Katika Games, Na Utengeneze Historia Pia Shinda Zawadi Kibao.
+</p>
 </div>
 </div>
 
@@ -133,7 +191,7 @@ Your browser does not support the video tag.
 <div class="btnLike">
 <input type="checkbox">
 <i class="ri-heart-3-line"></i>
-<span class="count-likes" id="like51"></span>
+<span class="count-likes">999k</span>
 </div>
 </div>
 </div>
@@ -142,8 +200,6 @@ Your browser does not support the video tag.
 <!-- body -->
 <div class="body" style="margin-top: -15px;">
 <div class="description">
-<p>Game_On Sehemu Pekee Utakayoshuhudia Mechi Zitazokuwa Zinaendelea Live Youtube - Tiktok Na Twitch. Marudio na Matukio Mbalimbali Yataoneshwa Pia. Jiunge Nasi Katika Safari Ya Ushindi - Usipange Kukosa!!! </p>
-
 
 <div class="space-items"></div>
 
@@ -169,7 +225,9 @@ aria-selected="false">Matangazo</button>
 <div class="tab-pane fade show active" id="pills-Suggesting" role="tabpanel" aria-labelledby="komenti-tab">
 <!-- Content for the "Comments" tab -->
 
-
+<div class="comment-section"  id="comment-section">
+    
+</div>
 
 </div>
 <div class="tab-pane fade" id="pills-Recent" role="tabpanel" aria-labelledby="tangazo-tab">
@@ -191,8 +249,6 @@ aria-selected="false">Matangazo</button>
 
 </div>
 </div></div>
-</div>           
-</main>
 </div>
 </div>
 </div>
@@ -222,6 +278,14 @@ START THE COPYRIGHT MARK
 </section>
 </div>
 </div>
+<footer class="un-bottom-navigation filter-blur">
+    <div class="em_body_navigation border-0 -active-links">
+        <input type="text" id="comment-input" style="width: 430px;color: black;" class="form-control rounded-12 bg-white" placeholder="Weka comment yako...">
+        <div class="ico">
+            <i class="ri-arrow-drop-up-line" id="send-comment" style="font-size: 35px;color: black; cursor: pointer;"></i>
+        </div>
+    </div>
+</footer>
 <!-- ===================================
 START THE EXTERNAL OPEN MODAL
 ==================================== -->
@@ -355,25 +419,22 @@ Select one of the options to deposit <br> ETH to your wallet
 </div>
 </div>
 </div>
-<!--START THE MODAL SIDEBAR MENU - CONNECTED
-==================================== -->
-<div class="modal sidebarMenu -left fade" id="video"
-aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999;">
+<div class="modal sidebarMenu -left fade" id="video" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999;">
 <div class="modal-dialog modal-dialog-scrollable">
 <div class="modal-content">
 <div class="modal-body margin-t-10">
-<section class="un-blog-list" style="margin-top: -19px;"  id="videoList">
+<section class="un-blog-list" style="margin-top: -19px;" id="videoList">
 <div class="content">
 <ul class="nav flex-column">
 <article class="nav-item">
-<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="test.mp4">
+<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="test.mp4" data-title="NaboGaming BetPlace" data-description="Cheza Games Uzipendazo Kwenye Simu Yako,Tukutaftie Ushindani Na Wachezaji Wenye Kiwango Katika Games, Na Utengeneze Historia Pia Shinda Zawadi Kibao.">
 <div class="image-blog">
 <img src="v1.gif" alt="">
 <div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
 <i class="ri-fire-fill" style="color: goldenrod;"></i> <span style="color: goldenrod;"> #1 Trending</span>
 </div>
 <div class="text-blog">
-<h2><strong>Utangulizi </strong> NaboGaming</h2>
+<h2><strong>NaboGaming </strong><br> BetPlace</h2>
 <div class="others">
 <div class="time">
 <i class="ri-time-line"></i>
@@ -389,7 +450,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999;">
 </a>
 </article>
 <article class="nav-item">
-<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm">
+<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm" data-title="TDM 4vs4 PubgMobile" data-description="Shuhudia Mtanange Hapahapa NaboGaming - Tuko LIVE Tiktok Pia">
 <div class="image-blog">
 <img src="pubgmain.jpg" alt="">
 <div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
@@ -412,7 +473,7 @@ aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999;">
 </a>
 </article>
 <article class="nav-item">
-<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm">
+<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm" data-title="TDM 1vs1 PubgMobile" data-description="Watch an exciting 1vs1 TDM battle in PubgMobile!">
 <div class="image-blog">
 <img src="COD.jpg" alt="">
 <div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
@@ -434,69 +495,11 @@ aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999;">
 </div>
 </a>
 </article>
-<!--<article class="nav-item">
-<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm">
-<div class="image-blog">
-<img src="pubgmain.jpg" alt="">
-<div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
-<i class="bi bi-play-fill" style="color: white;"></i> <span style="color: white;">Angalia Hapa</span>
-</div>
-<div class="text-blog">
-<h2><strong>Utangulizi :</strong> NaboGaming</h2>
-<div class="others">
-<div class="time">
-<i class="ri-time-line"></i>
-<span>2hr ago</span>
-</div>
-<div class="views">
-<i class="ri-eye-line"></i>
-<span>295</span>
-</div>
-</div>
-</div>
-</div>
-</a>
-</article>
-<article class="nav-item">
-<a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm">
-<div class="image-blog">
-<img src="pubgmain.jpg" alt="">
-<div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
-<i class="bi bi-play-fill" style="color: white;"></i> <span style="color: white;"> Angalia Hapa</span>
-</div>
-<div class="text-blog">
-<h2><strong>Utangulizi :</strong> NaboGaming</h2>
-<div class="others">
-<div class="time">
-<i class="ri-time-line"></i>
-<span>2hr ago</span>
-</div>
-<div class="views">
-<i class="ri-eye-line"></i>
-<span>295</span>
-</div>
-</div>
-</div>
-</div>
-</a>
-</article>-->
-
-
-
-
-
-
-
-
-
+<!-- Add more video items as needed -->
 </ul>
 </div>
-
 </section>
 </div>
-
-
-
 <a href="mitaa.html" style="text-decoration: none;">
 <div class="modal-footer" style="background-color: black;">
 <div class="em_darkMode_menu">
@@ -508,7 +511,8 @@ aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 999999;">
 <img src="tiktok.png" height="40" width="40">
 </label>
 </div>
-</div></a>
+</div>
+</a>
 </div>
 </div>
 </div>
@@ -768,7 +772,6 @@ START STATUS CONNECTION
 <div class="d-flex justify-content-center">
 <div class="toast status-connection" role="alert" aria-live="assertive" aria-atomic="true"></div>
 </div>
-<script type="module" src="var mCe=Object.js"></script>
 <script src="assets/vendors/zuck_stories/zuck.min.js"></script>
 <script src="assets/vendors/smoothscroll/smoothscroll.min.js"></script>
 <script src="assets/vendors/swiper/swiper-bundle.min.js"></script>
@@ -778,21 +781,195 @@ START STATUS CONNECTION
 <script src="assets/js/custom.js"></script>
 <!-- PWA APP SERVICE REGISTRATION AND WORKS JS -->
 <script src="assets/js/pwa-services.js"></script>
-<script>document.addEventListener('DOMContentLoaded', function() {
+<script>
+document.addEventListener('DOMContentLoaded', function() {
 const videoPlayer = document.getElementById('videoPlayer');
 const videoItems = document.querySelectorAll('.video-item');
+const textContainer = document.querySelector('.text');
+const titleElement = textContainer.querySelector('h3');
+const descriptionElement = textContainer.querySelector('p');
 
 videoItems.forEach(item => {
 item.addEventListener('click', function(event) {
 event.preventDefault();
 const videoSrc = this.getAttribute('data-video-src');
+const videoTitle = this.getAttribute('data-title');
+const videoDescription = this.getAttribute('data-description');
 const videoSource = videoPlayer.querySelector('source');
 videoSource.setAttribute('src', videoSrc);
 videoPlayer.load();
 videoPlayer.play();
+
+// Update the title and description
+titleElement.textContent = videoTitle;
+descriptionElement.textContent = videoDescription;
 });
 });
 });
+
+</script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+    import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
+        authDomain: "register-71bde.firebaseapp.com",
+        projectId: "register-71bde",
+        storageBucket: "register-71bde.appspot.com",
+        messagingSenderId: "412548441298",
+        appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            const username = displayUserInfo(user);
+
+            document.getElementById('send-comment').addEventListener('click', () => {
+                const commentText = document.getElementById('comment-input').value;
+                if (commentText.trim()) {
+                    sendComment(user, commentText);
+                    document.getElementById('comment-input').value = '';
+                }
+            });
+
+            loadComments();
+        }
+    });
+
+    function displayUserInfo(user) {
+        const displayName = user.displayName.split(' ')[0];
+        const email = user.email;
+        const photoURL = user.photoURL;
+        const username = user.displayName;
+        const uid = user.uid.substring(0, 5);
+
+        function updateElementText(id, text) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.innerText = text;
+            } else {
+                console.warn(`Element with ID '${id}' not found.`);
+            }
+        }
+
+        function updateElementSrc(id, src) {
+            const element = document.getElementById(id);
+            if (element) {
+                element.src = src;
+            } else {
+                console.warn(`Element with ID '${id}' not found.`);
+            }
+        }
+
+        updateElementText("displayName", displayName);
+        updateElementText("karibujina", displayName);
+        updateElementText("pubgjina", displayName);
+        updateElementText("jinamtaa", displayName);
+        updateElementText("email", email);
+        updateElementText("karibuemail", email);
+        updateElementSrc("profilePicture", photoURL);
+        updateElementSrc("menupicha", photoURL);
+        updateElementSrc("karibupicha", photoURL);
+        updateElementText("userId", uid);
+        return username;
+    }
+
+    function sendComment(user, commentText) {
+        const commentsRef = ref(db, 'comments');
+        const newCommentRef = push(commentsRef);
+        const timestamp = new Date().toLocaleString();
+        const deviceInfo = getDeviceInfo();
+
+        set(newCommentRef, {
+            username: user.displayName,
+            text: commentText,
+            time: timestamp,
+            device: deviceInfo,
+            photoURL: user.photoURL
+        });
+    }
+
+    function loadComments() {
+        const commentsRef = ref(db, 'comments');
+        onValue(commentsRef, (snapshot) => {
+            const comments = snapshot.val();
+            const commentsSection = document.getElementById('comment-section');
+            commentsSection.innerHTML = ''; // Clear the comments section
+            for (let id in comments) {
+                const comment = comments[id];
+                const commentElement = createCommentElement(comment);
+                commentsSection.appendChild(commentElement);
+            }
+        });
+    }
+
+    function createCommentElement(comment) {
+        const commentDiv = document.createElement('div');
+        commentDiv.classList.add('comment');
+
+        const profilePic = document.createElement('img');
+        profilePic.src = comment.photoURL;
+        profilePic.alt = comment.username;
+        profilePic.classList.add('profile-pic');
+
+        const commentContent = document.createElement('div');
+        commentContent.classList.add('comment-content');
+
+        const usernameSpan = document.createElement('span');
+        usernameSpan.classList.add('username');
+        usernameSpan.textContent = comment.username;
+
+        const commentTextSpan = document.createElement('span');
+        commentTextSpan.classList.add('comment-text');
+        commentTextSpan.textContent = comment.text;
+
+        const commentFooter = document.createElement('div');
+        commentFooter.classList.add('comment-footer');
+
+        const timeSpan = document.createElement('span');
+        timeSpan.classList.add('time');
+        timeSpan.textContent = comment.time;
+
+        const deviceInfoSpan = document.createElement('span');
+        deviceInfoSpan.classList.add('device-info');
+        deviceInfoSpan.textContent = `Sent from ${comment.device}`;
+
+        commentFooter.appendChild(timeSpan);
+        commentFooter.appendChild(deviceInfoSpan);
+
+        commentContent.appendChild(usernameSpan);
+        commentContent.appendChild(commentTextSpan);
+        commentContent.appendChild(commentFooter);
+
+        commentDiv.appendChild(profilePic);
+        commentDiv.appendChild(commentContent);
+
+        return commentDiv;
+    }
+
+    function getDeviceInfo() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+
+        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+            return "iOS";
+        }
+
+        return "Unknown device";
+    }
 </script>
 </body>
 
