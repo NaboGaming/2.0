@@ -22137,13 +22137,15 @@ header.default.header-light .un-block-right .menu-sidebar .btn svg rect {
 
 .un-blog-list .nav .nav-item .nav-link .image-blog {
     display: flex;
-    align-items: center
+    align-items: center;
+    width: 150px;
+    height: 100px;
 }
 
 .un-blog-list .nav .nav-item .nav-link .image-blog img {
-    width: 80px;
-    height: 80px;
-    border-radius: 15px;
+    width: 150px;
+    height: 100px;
+    border-radius: 6px;
     object-fit: cover;
     margin-right: 15px
 }
@@ -22158,8 +22160,8 @@ header.default.header-light .un-block-right .menu-sidebar .btn svg rect {
 
 .un-blog-list .nav .nav-item .nav-link .image-blog .text-blog .others {
     display: flex;
-    column-gap: 15px;
-    flex-direction: row
+    column-gap: 0px;
+    flex-direction: column
 }
 
 .un-blog-list .nav .nav-item .nav-link .image-blog .text-blog .others .time,
