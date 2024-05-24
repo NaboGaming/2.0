@@ -22,67 +22,99 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
 <!-- CSS FILES -->
 
 <style>
+
+#loading-message {
+    text-align: center;
+    padding: 20px;
+    font-size: 18px;
+    color: #555;
+}
+
 .comment-section {
-    margin: 20px;
+    padding: 20px;
 }
 
 .comment {
     display: flex;
     margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
 }
 
 .profile-pic {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin-right: 10px;
 }
 
 .comment-content {
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 8px;
-    position: relative;
-    width: 100%;
+    flex: 1;
+}
+
+.username {
+    font-weight: bold;
+}
+
+.comment-text {
+    display: block;
+    margin: 5px 0;
 }
 
 .comment-footer {
     display: flex;
     justify-content: space-between;
-    margin-top: 5px;
     font-size: 12px;
-    color: gray;
+    color: #999;
 }
 
 .reply {
     cursor: pointer;
-    color: blue;
+    color: #007bff;
+}
+
+.reply:hover {
+    text-decoration: underline;
 }
 
 .replies {
-    margin-left: 60px;
+    margin-left: 50px;
+    padding-left: 10px;
+    border-left: 2px solid #ddd;
+}
+
+.reply-comment {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #e9f5ff;
+    padding: 5px;
     margin-top: 10px;
+    font-size: 14px;
 }
 
-.replying-to {
-    border: 2px solid #007bff;
-    border-radius: 8px;
-}
-
-.comment-input-container {
-    display: flex;
-    align-items: center;
-}
-
-.comment-input {
-    flex: 1;
-    border: 2px solid #ccc;
-    border-radius: 8px;
+.un-bottom-navigation {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
     padding: 10px;
 }
 
-.comment-input.replying {
-    border-color: #007bff;
+.form-control {
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.ico {
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
 }
 
 .video-cover {
@@ -234,7 +266,7 @@ aria-selected="false">Matangazo</button>
 <div class="tab-content" id="pills-tabContent">
 <div class="tab-pane fade show active" id="pills-Suggesting" role="tabpanel" aria-labelledby="komenti-tab">
 <!-- Content for the "Comments" tab -->
-
+<div id="loading-message">Comments are loading...</div>
 <div class="comment-section"  id="comment-section">
     
 </div>
@@ -819,211 +851,201 @@ descriptionElement.textContent = videoDescription;
 
 </script>
  <script type="module">
-   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
-const firebaseConfig = {
-    apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
-    authDomain: "register-71bde.firebaseapp.com",
-    projectId: "register-71bde",
-    storageBucket: "register-71bde.appspot.com",
-    messagingSenderId: "412548441298",
-    appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
-};
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
+            authDomain: "register-71bde.firebaseapp.com",
+            projectId: "register-71bde",
+            storageBucket: "register-71bde.appspot.com",
+            messagingSenderId: "412548441298",
+            appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
+        };
 
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
-const auth = getAuth(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
 
-let replyingTo = null;
+        let replyingTo = null;
 
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        const username = displayUserInfo(user);
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                const username = displayUserInfo(user);
 
-        document.getElementById('send-comment').addEventListener('click', () => {
-            const commentText = document.getElementById('comment-input').value;
-            if (commentText.trim()) {
-                sendComment(user, commentText);
-                document.getElementById('comment-input').value = '';
-                clearReplyingState();
+                document.getElementById('send-comment').addEventListener('click', () => {
+                    const commentText = document.getElementById('comment-input').value;
+                    if (commentText.trim()) {
+                        sendComment(user, commentText);
+                        document.getElementById('comment-input').value = '';
+                    }
+                });
+
+                loadComments();
             }
         });
 
-        loadComments();
-    }
-});
+        function displayUserInfo(user) {
+            const displayName = user.displayName.split(' ')[0];
+            const email = user.email;
+            const photoURL = user.photoURL;
+            const username = user.displayName;
+            const uid = user.uid.substring(0, 5);
 
-function displayUserInfo(user) {
-    const displayName = user.displayName.split(' ')[0];
-    const email = user.email;
-    const photoURL = user.photoURL;
-    const username = user.displayName;
-    const uid = user.uid.substring(0, 5);
+            function updateElementText(id, text) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.innerText = text;
+                } else {
+                    console.warn(`Element with ID '${id}' not found.`);
+                }
+            }
 
-    function updateElementText(id, text) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.innerText = text;
-        } else {
-            console.warn(`Element with ID '${id}' not found.`);
+            function updateElementSrc(id, src) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.src = src;
+                } else {
+                    console.warn(`Element with ID '${id}' not found.`);
+                }
+            }
+
+            updateElementText("displayName", displayName);
+            updateElementText("karibujina", displayName);
+            updateElementText("pubgjina", displayName);
+            updateElementText("jinamtaa", displayName);
+            updateElementText("email", email);
+            updateElementText("karibuemail", email);
+            updateElementSrc("profilePicture", photoURL);
+            updateElementSrc("menupicha", photoURL);
+            updateElementSrc("karibupicha", photoURL);
+            updateElementText("userId", uid);
+            return username;
         }
-    }
 
-    function updateElementSrc(id, src) {
-        const element = document.getElementById(id);
-        if (element) {
-            element.src = src;
-        } else {
-            console.warn(`Element with ID '${id}' not found.`);
+        function sendComment(user, commentText) {
+            const commentsRef = ref(db, replyingTo ? `comments/${replyingTo}/replies` : 'comments');
+            const newCommentRef = push(commentsRef);
+            const timestamp = new Date().toLocaleString();
+            const deviceInfo = getDeviceInfo();
+
+            set(newCommentRef, {
+                username: user.displayName,
+                text: commentText,
+                time: timestamp,
+                device: deviceInfo,
+                photoURL: user.photoURL,
+                replyingTo: replyingTo ? replyingTo : null
+            });
+
+            replyingTo = null;
         }
-    }
 
-    updateElementText("displayName", displayName);
-    updateElementText("karibujina", displayName);
-    updateElementText("pubgjina", displayName);
-    updateElementText("jinamtaa", displayName);
-    updateElementText("email", email);
-    updateElementText("karibuemail", email);
-    updateElementSrc("profilePicture", photoURL);
-    updateElementSrc("menupicha", photoURL);
-    updateElementSrc("karibupicha", photoURL);
-    updateElementText("userId", uid);
-    return username;
-}
+        function loadComments() {
+            const commentsRef = ref(db, 'comments');
+            const loadingMessage = document.getElementById('loading-message');
+            const commentsSection = document.getElementById('comment-section');
 
-function sendComment(user, commentText) {
-    const commentsRef = ref(db, replyingTo ? `comments/${replyingTo}/replies` : 'comments');
-    const newCommentRef = push(commentsRef);
-    const timestamp = new Date().toLocaleString();
-    const deviceInfo = getDeviceInfo();
+            loadingMessage.style.display = 'block';
+            commentsSection.innerHTML = ''; // Clear the comments section
 
-    set(newCommentRef, {
-        username: user.displayName,
-        text: commentText,
-        time: timestamp,
-        device: deviceInfo,
-        photoURL: user.photoURL,
-        replyingTo: replyingTo ? replyingTo : null
-    });
-
-    replyingTo = null;
-}
-
-function loadComments() {
-    const commentsRef = ref(db, 'comments');
-    onValue(commentsRef, (snapshot) => {
-        const comments = snapshot.val();
-        const commentsSection = document.getElementById('comment-section');
-        commentsSection.innerHTML = ''; // Clear the comments section
-        for (let id in comments) {
-            const comment = comments[id];
-            const commentElement = createCommentElement(comment, id);
-            commentsSection.appendChild(commentElement);
+            onValue(commentsRef, (snapshot) => {
+                loadingMessage.style.display = 'none'; // Hide loading message when data is received
+                const comments = snapshot.val();
+                for (let id in comments) {
+                    const comment = comments[id];
+                    const commentElement = createCommentElement(comment, id);
+                    commentsSection.appendChild(commentElement);
+                }
+            });
         }
-    });
-}
 
-function createCommentElement(comment, commentId) {
-    const commentDiv = document.createElement('div');
-    commentDiv.classList.add('comment');
+        function createCommentElement(comment, commentId, isReply = false) {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+            if (isReply) {
+                commentDiv.classList.add('reply-comment');
+            }
 
-    const profilePic = document.createElement('img');
-    profilePic.src = comment.photoURL;
-    profilePic.alt = comment.username;
-    profilePic.classList.add('profile-pic');
+            const profilePic = document.createElement('img');
+            profilePic.src = comment.photoURL;
+            profilePic.alt = comment.username;
+            profilePic.classList.add('profile-pic');
 
-    const commentContent = document.createElement('div');
-    commentContent.classList.add('comment-content');
+            const commentContent = document.createElement('div');
+            commentContent.classList.add('comment-content');
 
-    const usernameSpan = document.createElement('span');
-    usernameSpan.classList.add('username');
-    usernameSpan.textContent = comment.username;
+            const usernameSpan = document.createElement('span');
+            usernameSpan.classList.add('username');
+            usernameSpan.textContent = comment.username;
 
-    const commentTextSpan = document.createElement('span');
-    commentTextSpan.classList.add('comment-text');
-    commentTextSpan.textContent = comment.text;
+            const commentTextSpan = document.createElement('span');
+            commentTextSpan.classList.add('comment-text');
+            commentTextSpan.textContent = comment.text;
 
-    const commentFooter = document.createElement('div');
-    commentFooter.classList.add('comment-footer');
+            const commentFooter = document.createElement('div');
+            commentFooter.classList.add('comment-footer');
 
-    const timeSpan = document.createElement('span');
-    timeSpan.classList.add('time');
-    timeSpan.textContent = comment.time;
+            const timeSpan = document.createElement('span');
+            timeSpan.classList.add('time');
+            timeSpan.textContent = comment.time;
 
-    const replyButton = document.createElement('span');
-    replyButton.classList.add('reply');
-    replyButton.textContent = 'Reply';
-    replyButton.addEventListener('click', () => {
-        setReplyingState(commentId, comment.username);
-    });
+            const replyButton = document.createElement('span');
+            replyButton.classList.add('reply');
+            replyButton.textContent = 'Reply';
+            replyButton.addEventListener('click', () => {
+                replyingTo = commentId;
+                document.getElementById('comment-input').focus();
+                document.getElementById('comment-input').value = `@${comment.username} `;
+            });
 
-    const deviceInfoSpan = document.createElement('span');
-    deviceInfoSpan.classList.add('device-info');
-    deviceInfoSpan.textContent = `Sent from ${comment.device}`;
+            const deviceInfoSpan = document.createElement('span');
+            deviceInfoSpan.classList.add('device-info');
+            deviceInfoSpan.textContent = `Sent from ${comment.device}`;
 
-    commentFooter.appendChild(timeSpan);
-    commentFooter.appendChild(replyButton);
-    commentFooter.appendChild(deviceInfoSpan);
+            commentFooter.appendChild(timeSpan);
+            commentFooter.appendChild(replyButton);
+            commentFooter.appendChild(deviceInfoSpan);
 
-    commentContent.appendChild(usernameSpan);
-    commentContent.appendChild(commentTextSpan);
-    commentContent.appendChild(commentFooter);
+            commentContent.appendChild(usernameSpan);
+            commentContent.appendChild(commentTextSpan);
+            commentContent.appendChild(commentFooter);
 
-    commentDiv.appendChild(profilePic);
-    commentDiv.appendChild(commentContent);
+            commentDiv.appendChild(profilePic);
+            commentDiv.appendChild(commentContent);
 
-    if (comment.replies) {
-        const repliesDiv = document.createElement('div');
-        repliesDiv.classList.add('replies');
-        for (let replyId in comment.replies) {
-            const reply = comment.replies[replyId];
-            const replyElement = createCommentElement(reply, replyId);
-            repliesDiv.appendChild(replyElement);
+            if (comment.replies) {
+                const repliesDiv = document.createElement('div');
+                repliesDiv.classList.add('replies');
+                for (let replyId in comment.replies) {
+                    const reply = comment.replies[replyId];
+                    const replyElement = createCommentElement(reply, replyId, true);
+                    repliesDiv.appendChild(replyElement);
+                }
+                commentDiv.appendChild(repliesDiv);
+            }
+
+            return commentDiv;
         }
-        commentDiv.appendChild(repliesDiv);
-    }
 
-    return commentDiv;
-}
+        function getDeviceInfo() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-function setReplyingState(commentId, username) {
-    replyingTo = commentId;
-    document.getElementById('comment-input').focus();
-    document.getElementById('comment-input').value = `@${username} `;
-    document.getElementById('comment-input').classList.add('replying');
+            if (/windows phone/i.test(userAgent)) {
+                return "Windows Phone";
+            }
 
-    const commentElements = document.querySelectorAll('.comment');
-    commentElements.forEach(el => el.classList.remove('replying-to'));
-    document.querySelector(`.comment[data-id="${commentId}"]`).classList.add('replying-to');
-}
+            if (/android/i.test(userAgent)) {
+                return "Android";
+            }
 
-function clearReplyingState() {
-    replyingTo = null;
-    document.getElementById('comment-input').classList.remove('replying');
-    const commentElements = document.querySelectorAll('.comment');
-    commentElements.forEach(el => el.classList.remove('replying-to'));
-}
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                return "iOS";
+            }
 
-function getDeviceInfo() {
-    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-    if (/windows phone/i.test(userAgent)) {
-        return "Windows Phone";
-    }
-
-    if (/android/i.test(userAgent)) {
-        return "Android";
-    }
-
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "iOS";
-    }
-
-    return "Unknown device";
-}
-
+            return "Unknown device";
+        }
     </script>
 </body>
 
