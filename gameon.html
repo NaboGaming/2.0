@@ -866,8 +866,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
         const db = getDatabase(app);
         const auth = getAuth(app);
 
-        let replyingTo = null;
-
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 document.getElementById('send-comment').addEventListener('click', () => {
@@ -883,7 +881,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
         });
 
         function sendComment(user, commentText) {
-            const commentsRef = ref(db, replyingTo ? `comments/${replyingTo}/replies` : 'comments');
+            const commentsRef = ref(db, 'comments');
             const newCommentRef = push(commentsRef);
             const timestamp = new Date().toISOString();
 
@@ -891,11 +889,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
                 username: user.displayName,
                 text: commentText,
                 time: timestamp,
-                photoURL: user.photoURL,
-                replyingTo: replyingTo ? replyingTo : null
+                photoURL: user.photoURL
             });
-
-            replyingTo = null;
         }
 
         function loadComments() {
@@ -911,18 +906,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
                 const comments = snapshot.val();
                 for (let id in comments) {
                     const comment = comments[id];
-                    const commentElement = createCommentElement(comment, id);
+                    const commentElement = createCommentElement(comment);
                     commentsSection.appendChild(commentElement);
                 }
             });
         }
 
-        function createCommentElement(comment, commentId, isReply = false) {
+        function createCommentElement(comment) {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
-            if (isReply) {
-                commentDiv.classList.add('reply-comment');
-            }
 
             const profilePic = document.createElement('img');
             profilePic.src = comment.photoURL;
@@ -947,17 +939,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
             timeSpan.classList.add('time');
             timeSpan.textContent = formatTime(comment.time);
 
-            const replyButton = document.createElement('span');
-            replyButton.classList.add('reply');
-            replyButton.textContent = 'Reply';
-            replyButton.addEventListener('click', () => {
-                replyingTo = commentId;
-                document.getElementById('comment-input').focus();
-                document.getElementById('comment-input').value = `@${comment.username} `;
-            });
-
             commentFooter.appendChild(timeSpan);
-            commentFooter.appendChild(replyButton);
 
             commentContent.appendChild(usernameSpan);
             commentContent.appendChild(commentTextSpan);
@@ -965,28 +947,6 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebas
 
             commentDiv.appendChild(profilePic);
             commentDiv.appendChild(commentContent);
-
-            if (comment.replies) {
-                const repliesDiv = document.createElement('div');
-                repliesDiv.classList.add('replies');
-
-                const toggleRepliesButton = document.createElement('button');
-                toggleRepliesButton.classList.add('toggle-replies');
-                toggleRepliesButton.textContent = `View ${Object.keys(comment.replies).length} Replies`;
-                toggleRepliesButton.addEventListener('click', () => {
-                    repliesDiv.classList.toggle('hidden');
-                });
-
-                repliesDiv.classList.add('hidden');
-                commentDiv.appendChild(toggleRepliesButton);
-
-                for (let replyId in comment.replies) {
-                    const reply = comment.replies[replyId];
-                    const replyElement = createCommentElement(reply, replyId, true);
-                    repliesDiv.appendChild(replyElement);
-                }
-                commentDiv.appendChild(repliesDiv);
-            }
 
             return commentDiv;
         }
