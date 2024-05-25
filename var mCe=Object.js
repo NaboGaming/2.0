@@ -206,16 +206,14 @@ async function signOutPreviousSession(uid) {
     // Notify the user
     alert('You have been signed out because your account was logged in from another location.');
     
-    // Redirect to index.html after a short delay to allow alert to show
-    setTimeout(() => {
-        window.location.href = 'index.html';
-    }, 100); // Adjust delay if necessary
-
     // Delete the current user
     const currentUser = getAuth().currentUser;
     if (currentUser) {
         await deleteUser(currentUser);
     }
+
+    // Redirect to index.html
+    window.location.href = 'index.html';
 }
 
 // Function to remove a specific session
@@ -226,6 +224,7 @@ async function removeSession(uid, sessionId) {
         await set(userSessionRef, null);
     }
 }
+
 
 // Wait for the DOM to be fully loaded before accessing the file input element
 document.addEventListener('DOMContentLoaded', () => {
