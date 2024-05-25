@@ -191,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const allowedTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/webp'];
 
             if (selectedFile.size > maxSize) {
-                alert('File size should be less than 1.2 MB.');
+                alert('Picha inabidi iwe na saizi pungufu ya 1.2mb, Tafadhari Jaribu Tena  ');
                 return;
             }
 
