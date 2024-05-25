@@ -264,23 +264,7 @@ aria-selected="false">Matangazo</button>
 <div class="tab-content" id="pills-tabContent">
 <div class="tab-pane fade show active" id="pills-Suggesting" role="tabpanel" aria-labelledby="komenti-tab">
 <!-- Content for the "Comments" tab -->
-<div id="loading-message">
-<div class="loader-items">
-<div class="lds-spinner">
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-<div></div>
-</div>
-</div></div>
+<div id="loading-message">Subiri....</div>
 <div class="comment-section"  id="comment-section">
     
 </div>
@@ -298,22 +282,6 @@ aria-selected="false">Matangazo</button>
 </p>
 </div>
 </div>
-<h1>Update Profile</h1>
-    <form id="update-profile-form">
-        <label for="displayName">Display Name:</label><br>
-        <input type="text" id="displayName" name="displayName"><br>
-        
-        <label for="photoURL">Photo URL:</label><br>
-        <input type="text" id="photoURL" name="photoURL"><br>
-        
-        <label for="phoneNumber">Phone Number:</label><br>
-        <input type="text" id="phoneNumber" name="phoneNumber"><br>
-        
-        <input type="submit" value="Update Profile">
-    </form>
-
-
-
 
 </div>
 </div></div>
@@ -998,39 +966,6 @@ function formatTime(timestamp) {
         return `${diffInYears}y`;
     }
 }
-</script>
-    <script>document.addEventListener('DOMContentLoaded', function() {
-    const updateProfileForm = document.getElementById('update-profile-form');
-    
-    updateProfileForm.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        const user = firebase.auth().currentUser;
-        const displayName = updateProfileForm.displayName.value.trim();
-        const photoURL = updateProfileForm.photoURL.value.trim();
-        const phoneNumber = updateProfileForm.phoneNumber.value.trim();
-
-        const profileUpdate = {};
-        if (displayName) profileUpdate.displayName = displayName;
-        if (photoURL) profileUpdate.photoURL = photoURL;
-        if (phoneNumber) profileUpdate.phoneNumber = phoneNumber;
-
-        // Check if user is authenticated
-        if (user) {
-            // Update profile
-            user.updateProfile(profileUpdate)
-                .then(() => {
-                    console.log('Profile updated successfully.');
-                    updateProfileForm.reset();
-                })
-                .catch((error) => {
-                    console.error('Error updating profile:', error.message);
-                });
-        } else {
-            console.error('User not authenticated.');
-        }
-    });
-});
 </script>
 </body>
 
