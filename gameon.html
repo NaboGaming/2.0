@@ -866,135 +866,127 @@ descriptionElement.textContent = videoDescription;
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
-            authDomain: "register-71bde.firebaseapp.com",
-            projectId: "register-71bde",
-            storageBucket: "register-71bde.appspot.com",
-            messagingSenderId: "412548441298",
-            appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
-        };
+const firebaseConfig = {
+    apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
+    authDomain: "register-71bde.firebaseapp.com",
+    projectId: "register-71bde",
+    storageBucket: "register-71bde.appspot.com",
+    messagingSenderId: "412548441298",
+    appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
+};
 
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-        const auth = getAuth(app);
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
 
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                document.getElementById('send-comment').addEventListener('click', () => {
-                    const commentText = document.getElementById('comment-input').value;
-                    if (commentText.trim()) {
-                        sendComment(user, commentText);
-                        document.getElementById('comment-input').value = '';
-                    }
-                });
-
-                loadComments();
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        document.getElementById('send-comment').addEventListener('click', () => {
+            const commentText = document.getElementById('comment-input').value;
+            if (commentText.trim()) {
+                sendComment(user, commentText);
+                document.getElementById('comment-input').value = '';
             }
         });
+    }
+});
 
-        function sendComment(user, commentText) {
-            const commentsRef = ref(db, 'comments');
-            const newCommentRef = push(commentsRef);
-            const timestamp = new Date().toISOString();
+function sendComment(user, commentText) {
+    const commentsRef = ref(db, 'comments');
+    const newCommentRef = push(commentsRef);
+    const timestamp = new Date().toISOString();
 
-            set(newCommentRef, {
-                username: user.displayName,
-                text: commentText,
-                time: timestamp,
-                photoURL: user.photoURL
-            });
-        }
+    set(newCommentRef, {
+        username: user.displayName,
+        text: commentText,
+        time: timestamp,
+        photoURL: user.photoURL
+    }).then(() => {
+        // After the comment is successfully sent, create and append the new comment element
+        const comment = {
+            username: user.displayName,
+            text: commentText,
+            time: timestamp,
+            photoURL: user.photoURL
+        };
+        const commentElement = createCommentElement(comment);
+        const commentsSection = document.getElementById('comment-section');
+        commentsSection.appendChild(commentElement);
+    }).catch((error) => {
+        console.error('Error sending comment:', error);
+    });
+}
 
-        function loadComments() {
-            const commentsRef = ref(db, 'comments');
-            const loadingMessage = document.getElementById('loading-message');
-            const commentsSection = document.getElementById('comment-section');
+function createCommentElement(comment) {
+    const commentDiv = document.createElement('div');
+    commentDiv.classList.add('comment');
 
-            loadingMessage.style.display = 'block';
-            commentsSection.innerHTML = ''; // Clear the comments section
+    const profilePic = document.createElement('img');
+    profilePic.src = comment.photoURL;
+    profilePic.alt = comment.username;
+    profilePic.classList.add('profile-pic');
 
-            onValue(commentsRef, (snapshot) => {
-                loadingMessage.style.display = 'none'; // Hide loading message when data is received
-                const comments = snapshot.val();
-                for (let id in comments) {
-                    const comment = comments[id];
-                    const commentElement = createCommentElement(comment);
-                    commentsSection.appendChild(commentElement);
-                }
-            });
-        }
+    const commentContent = document.createElement('div');
+    commentContent.classList.add('comment-content');
 
-        function createCommentElement(comment) {
-            const commentDiv = document.createElement('div');
-            commentDiv.classList.add('comment');
+    const usernameSpan = document.createElement('span');
+    usernameSpan.classList.add('username');
+    usernameSpan.textContent = comment.username;
 
-            const profilePic = document.createElement('img');
-            profilePic.src = comment.photoURL;
-            profilePic.alt = comment.username;
-            profilePic.classList.add('profile-pic');
+    const commentTextSpan = document.createElement('span');
+    commentTextSpan.classList.add('comment-text');
+    commentTextSpan.textContent = comment.text;
 
-            const commentContent = document.createElement('div');
-            commentContent.classList.add('comment-content');
+    const commentFooter = document.createElement('div');
+    commentFooter.classList.add('comment-footer');
 
-            const usernameSpan = document.createElement('span');
-            usernameSpan.classList.add('username');
-            usernameSpan.textContent = comment.username;
+    const timeSpan = document.createElement('span');
+    timeSpan.classList.add('time');
+    timeSpan.textContent = formatTime(comment.time);
 
-            const commentTextSpan = document.createElement('span');
-            commentTextSpan.classList.add('comment-text');
-            commentTextSpan.textContent = comment.text;
+    commentFooter.appendChild(timeSpan);
 
-            const commentFooter = document.createElement('div');
-            commentFooter.classList.add('comment-footer');
+    commentContent.appendChild(usernameSpan);
+    commentContent.appendChild(commentTextSpan);
+    commentContent.appendChild(commentFooter);
 
-            const timeSpan = document.createElement('span');
-            timeSpan.classList.add('time');
-            timeSpan.textContent = formatTime(comment.time);
+    commentDiv.appendChild(profilePic);
+    commentDiv.appendChild(commentContent);
 
-            commentFooter.appendChild(timeSpan);
+    return commentDiv;
+}
 
-            commentContent.appendChild(usernameSpan);
-            commentContent.appendChild(commentTextSpan);
-            commentContent.appendChild(commentFooter);
+function formatTime(timestamp) {
+    const now = new Date();
+    const time = new Date(timestamp);
+    const diffInSeconds = Math.floor((now - time) / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const diffInWeeks = Math.floor(diffInDays / 7);
+    const diffInMonths = Math.floor(diffInDays / 30);
+    const diffInYears = Math.floor(diffInDays / 365);
 
-            commentDiv.appendChild(profilePic);
-            commentDiv.appendChild(commentContent);
-
-            return commentDiv;
-        }
-
-        function formatTime(timestamp) {
-            const now = new Date();
-            const time = new Date(timestamp);
-            const diffInSeconds = Math.floor((now - time) / 1000);
-            const diffInMinutes = Math.floor(diffInSeconds / 60);
-            const diffInHours = Math.floor(diffInMinutes / 60);
-            const diffInDays = Math.floor(diffInHours / 24);
-            const diffInWeeks = Math.floor(diffInDays / 7);
-            const diffInMonths = Math.floor(diffInDays / 30);
-            const diffInYears = Math.floor(diffInDays / 365);
-
-            if (diffInSeconds < 60) {
-                return 'just now';
-            } else if (diffInMinutes < 60) {
-                return `${diffInMinutes}m`;
-            } else if (diffInHours < 24) {
-                return `${diffInHours}h`;
-            } else if (diffInDays < 7) {
-                return `${diffInDays}d`;
-            } else if (diffInWeeks < 4) {
-                return `${diffInWeeks}w`;
-            } else if (diffInMonths < 12) {
-                return `${diffInMonths}mo`;
-            } else {
-                return `${diffInYears}y`;
-            }
-        }
-    </script>
+    if (diffInSeconds < 60) {
+        return 'just now';
+    } else if (diffInMinutes < 60) {
+        return `${diffInMinutes}m`;
+    } else if (diffInHours < 24) {
+        return `${diffInHours}h`;
+    } else if (diffInDays < 7) {
+        return `${diffInDays}d`;
+    } else if (diffInWeeks < 4) {
+        return `${diffInWeeks}w`;
+    } else if (diffInMonths < 12) {
+        return `${diffInMonths}mo`;
+    } else {
+        return `${diffInYears}y`;
+    }
+}
+</script>
 </body>
 
 </html>
