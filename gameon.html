@@ -22,25 +22,14 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
 <!-- CSS FILES -->
 
 <style>
-
-#loading-message {
-    text-align: center;
-    padding: 20px;
-    font-size: 18px;
-    color: #555;
-}
-
 .comment-section {
-    padding: 20px;
+    padding: 10px;
 }
 
 .comment {
     display: flex;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #fff;
+    align-items: flex-start;
+    margin-bottom: 15px;
 }
 
 .profile-pic {
@@ -51,21 +40,24 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
 }
 
 .comment-content {
-    flex: 1;
+    background: #fff;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 600px;
 }
 
 .username {
     font-weight: bold;
+    display: block;
 }
 
 .comment-text {
-    display: block;
     margin: 5px 0;
 }
 
 .comment-footer {
-    display: flex;
-    justify-content: space-between;
     font-size: 12px;
     color: #999;
 }
@@ -81,17 +73,20 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
 
 .replies {
     margin-left: 50px;
-    padding-left: 10px;
-    border-left: 2px solid #ddd;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
 }
 
 .reply-comment {
     border: 1px solid #ddd;
     border-radius: 8px;
-    background-color: #e9f5ff;
+    background-color: #f0f8ff;
     padding: 5px;
-    margin-top: 10px;
-    font-size: 7px;
+    font-size: 14px;
+    margin-top: 5px;
 }
 
 .un-bottom-navigation {
@@ -115,6 +110,12 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
     display: inline-block;
     vertical-align: middle;
     cursor: pointer;
+}
+
+#loading-message {
+    display: none;
+    text-align: center;
+    padding: 20px;
 }
 
 .video-cover {
@@ -850,8 +851,8 @@ descriptionElement.textContent = videoDescription;
 });
 
 </script>
- <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
         import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
@@ -927,14 +928,12 @@ descriptionElement.textContent = videoDescription;
         function sendComment(user, commentText) {
             const commentsRef = ref(db, replyingTo ? `comments/${replyingTo}/replies` : 'comments');
             const newCommentRef = push(commentsRef);
-            const timestamp = new Date().toLocaleString();
-            const deviceInfo = getDeviceInfo();
+            const timestamp = new Date().toISOString();
 
             set(newCommentRef, {
                 username: user.displayName,
                 text: commentText,
                 time: timestamp,
-                device: deviceInfo,
                 photoURL: user.photoURL,
                 replyingTo: replyingTo ? replyingTo : null
             });
@@ -989,7 +988,7 @@ descriptionElement.textContent = videoDescription;
 
             const timeSpan = document.createElement('span');
             timeSpan.classList.add('time');
-            timeSpan.textContent = comment.time;
+            timeSpan.textContent = formatTime(comment.time);
 
             const replyButton = document.createElement('span');
             replyButton.classList.add('reply');
@@ -1000,13 +999,8 @@ descriptionElement.textContent = videoDescription;
                 document.getElementById('comment-input').value = `@${comment.username} `;
             });
 
-            const deviceInfoSpan = document.createElement('span');
-            deviceInfoSpan.classList.add('device-info');
-            deviceInfoSpan.textContent = `Sent from ${comment.device}`;
-
             commentFooter.appendChild(timeSpan);
             commentFooter.appendChild(replyButton);
-            commentFooter.appendChild(deviceInfoSpan);
 
             commentContent.appendChild(usernameSpan);
             commentContent.appendChild(commentTextSpan);
@@ -1018,6 +1012,17 @@ descriptionElement.textContent = videoDescription;
             if (comment.replies) {
                 const repliesDiv = document.createElement('div');
                 repliesDiv.classList.add('replies');
+
+                const toggleRepliesButton = document.createElement('button');
+                toggleRepliesButton.classList.add('toggle-replies');
+                toggleRepliesButton.textContent = `View ${Object.keys(comment.replies).length} Replies`;
+                toggleRepliesButton.addEventListener('click', () => {
+                    repliesDiv.classList.toggle('hidden');
+                });
+
+                repliesDiv.classList.add('hidden');
+                commentDiv.appendChild(toggleRepliesButton);
+
                 for (let replyId in comment.replies) {
                     const reply = comment.replies[replyId];
                     const replyElement = createCommentElement(reply, replyId, true);
@@ -1029,22 +1034,32 @@ descriptionElement.textContent = videoDescription;
             return commentDiv;
         }
 
-        function getDeviceInfo() {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+        function formatTime(timestamp) {
+            const now = new Date();
+            const time = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - time) / 1000);
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const diffInDays = Math.floor(diffInHours / 24);
+            const diffInWeeks = Math.floor(diffInDays / 7);
+            const diffInMonths = Math.floor(diffInDays / 30);
+            const diffInYears = Math.floor(diffInDays / 365);
 
-            if (/windows phone/i.test(userAgent)) {
-                return "Windows Phone";
+            if (diffInSeconds < 60) {
+                return 'just now';
+            } else if (diffInMinutes < 60) {
+                return `${diffInMinutes}m`;
+            } else if (diffInHours < 24) {
+                return `${diffInHours}h`;
+            } else if (diffInDays < 7) {
+                return `${diffInDays}d`;
+            } else if (diffInWeeks < 4) {
+                return `${diffInWeeks}w`;
+            } else if (diffInMonths < 12) {
+                return `${diffInMonths}mo`;
+            } else {
+                return `${diffInYears}y`;
             }
-
-            if (/android/i.test(userAgent)) {
-                return "Android";
-            }
-
-            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-                return "iOS";
-            }
-
-            return "Unknown device";
         }
     </script>
 </body>
