@@ -717,10 +717,14 @@ aria-label="btnNavigation">
 </div>
 <div class="item_link">
 <a class="btn btn_navLink" aria-label="btnNavigation">
-<div class="icon_current">
-    <img id="karibupicha" src="images/avatar/avatar.png" alt="Profile Picture" height="35" width="35" style="border-radius: 50%;">
-</div>
+    <div class="icon_current user-img d-flex align-items-center justify-content-center position-relative">
+        <img id="karibupicha" src="images/avatar/avatar.png" alt="Profile Picture" height="35" width="35" style="border-radius: 50%;">
+        <div class="position-absolute">
+            <input type="file" id="fileInput" style="display: none;">
+        </div>
+    </div>
 </a>
+
 </div>
 </div>
 </footer>
