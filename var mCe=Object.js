@@ -118,11 +118,15 @@ function handleFileUpload(selectedFile) {
     uploadTask.on('state_changed',
         (snapshot) => {
             // Handle upload progress
-            console.log('Upload is ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100 + '% done');
+            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            // Display the upload progress to the user
+            document.getElementById('upload-progress').innerText = 'Upload is ' + progress.toFixed(2) + '% done';
         },
         (error) => {
             // Handle errors
             console.error('Error uploading file:', error);
+            document.getElementById('upload-progress').innerText = 'Error uploading file: ' + error.message;
         },
         () => {
             // Handle successful upload
@@ -137,6 +141,7 @@ function handleFileUpload(selectedFile) {
                         location.reload();
                     }).catch((error) => {
                         console.error('Error updating profile picture:', error);
+                        document.getElementById('upload-progress').innerText = 'Error updating profile picture: ' + error.message;
                     });
                 }
             });
@@ -180,6 +185,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Add change event listener to the file input element
         fileInput.addEventListener('change', (event) => {
             const selectedFile = event.target.files[0];
+
+            // Check file size and type
+            const maxSize = 1.2 * 1024 * 1024; // 1.2 MB
+            const allowedTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/webp'];
+
+            if (selectedFile.size > maxSize) {
+                alert('File size should be less than 1.2 MB.');
+                return;
+            }
+
+            if (!allowedTypes.includes(selectedFile.type)) {
+                alert('File type should be GIF, PNG, JPG, or WEBP.');
+                return;
+            }
+
             if (selectedFile) {
                 handleFileUpload(selectedFile);
             }
