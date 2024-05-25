@@ -129,7 +129,7 @@ function handleFileUpload(selectedFile) {
                 // Update user's profile picture URL in Firebase Authentication
                 const user = getAuth().currentUser;
                 if (user) {
-                    user.updateProfile({
+                    updateProfile(user, {
                         photoURL: downloadURL
                     }).then(() => {
                         // Update UI with the new profile picture
