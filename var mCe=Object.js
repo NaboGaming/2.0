@@ -101,4 +101,55 @@ console.log("User is signed out");
 }
 });
 }
+// Initialize Firebase Storage
+const storage = firebase.storage();
+
+// Add change event listener to the file input
+fileInput.addEventListener('change', function(event) {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+        // Generate a unique filename for the uploaded file
+        const fileName = `${Date.now()}_${selectedFile.name}`;
+
+        // Create a reference to the storage location
+        const storageRef = storage.ref().child('profilePictures/' + fileName);
+
+        // Upload the file to Firebase Storage
+        const uploadTask = storageRef.put(selectedFile);
+
+        // Listen for state changes, errors, and completion of the upload
+        uploadTask.on('state_changed',
+            (snapshot) => {
+                // Handle progress
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                // Handle errors
+                console.error('Error uploading file:', error);
+            },
+            () => {
+                // Handle successful upload
+                uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+                    // Update the user's profile with the new photo URL
+                    const user = firebase.auth().currentUser;
+                    if (user) {
+                        user.updateProfile({
+                            photoURL: downloadURL
+                        }).then(() => {
+                            // Update UI with the new profile picture
+                            profileImage.src = downloadURL;
+                            console.log('Profile picture updated successfully:', downloadURL);
+                        }).catch((error) => {
+                            console.error('Error updating profile picture:', error);
+                        });
+                    }
+                });
+            }
+        );
+    } else {
+        console.log('No file selected.');
+    }
+});
+
 main();
