@@ -887,16 +887,7 @@ function sendComment(user, commentText) {
         time: timestamp,
         photoURL: user.photoURL
     }).then(() => {
-        // After the comment is successfully sent, create and append the new comment element
-        const comment = {
-            username: user.displayName,
-            text: commentText,
-            time: timestamp,
-            photoURL: user.photoURL
-        };
-        const commentElement = createCommentElement(comment);
-        const commentsSection = document.getElementById('comment-section');
-        commentsSection.appendChild(commentElement);
+        console.log('Comment sent successfully');
     }).catch((error) => {
         console.error('Error sending comment:', error);
     });
@@ -920,7 +911,7 @@ function createCommentElement(comment) {
 
     const timeSpan = document.createElement('span');
     timeSpan.classList.add('time');
-    timeSpan.textContent = `(${formatTime(comment.time)})`;
+    timeSpan.textContent = formatTime(comment.time);
 
     const commentTextSpan = document.createElement('span');
     commentTextSpan.classList.add('comment-text');
