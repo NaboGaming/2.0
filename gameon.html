@@ -16,9 +16,9 @@ content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, 
 <meta name="keywords"
 content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, cordova, phonegap, mobile, html, nft, store, marketplace, pwa" />
 <!-- FAVICON -->
-<link rel="icon" type="image/png" href="images/favicon/icon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="nabo.jpg" sizes="32x32">
 <!-- IOS SUPPORT -->
-<link rel="apple-touch-icon" href="images/favicon/icon-96x96.png">
+<link rel="apple-touch-icon" href="nabo.jpg">
 <!-- CSS FILES -->
 
 <style>
@@ -871,6 +871,7 @@ onAuthStateChanged(auth, (user) => {
                 document.getElementById('comment-input').value = '';
             }
         });
+        loadComments();
     }
 });
 
@@ -914,7 +915,11 @@ function createCommentElement(comment) {
 
     const usernameSpan = document.createElement('span');
     usernameSpan.classList.add('username');
-    usernameSpan.textContent = comment.username;
+    usernameSpan.textContent = `${comment.username} `;
+
+    const timeSpan = document.createElement('span');
+    timeSpan.classList.add('time');
+    timeSpan.textContent = `(${formatTime(comment.time)})`;
 
     const commentTextSpan = document.createElement('span');
     commentTextSpan.classList.add('comment-text');
@@ -923,15 +928,11 @@ function createCommentElement(comment) {
     const commentFooter = document.createElement('div');
     commentFooter.classList.add('comment-footer');
 
-    const timeSpan = document.createElement('span');
-    timeSpan.classList.add('time');
-    timeSpan.textContent = formatTime(comment.time);
-
+    commentFooter.appendChild(usernameSpan);
     commentFooter.appendChild(timeSpan);
 
-    commentContent.appendChild(usernameSpan);
-    commentContent.appendChild(commentTextSpan);
     commentContent.appendChild(commentFooter);
+    commentContent.appendChild(commentTextSpan);
 
     commentDiv.appendChild(profilePic);
     commentDiv.appendChild(commentContent);
@@ -966,7 +967,21 @@ function formatTime(timestamp) {
         return `${diffInYears}y`;
     }
 }
+
+function loadComments() {
+    const commentsRef = ref(db, 'comments');
+    onValue(commentsRef, (snapshot) => {
+        const commentsSection = document.getElementById('comment-section');
+        commentsSection.innerHTML = ''; // Clear existing comments
+        snapshot.forEach((childSnapshot) => {
+            const comment = childSnapshot.val();
+            const commentElement = createCommentElement(comment);
+            commentsSection.appendChild(commentElement);
+        });
+    });
+}
 </script>
+
 </body>
 
 </html>
