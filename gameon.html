@@ -23,97 +23,38 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
 
 <style>
 .comment-section {
-    padding: 10px;
+    background-color: #fff;
+    width: 400px;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .comment {
     display: flex;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
 }
 
 .profile-pic {
-    width: 25px;
-    height: 25px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    margin-right: 7px;
+    margin-right: 12px;
 }
 
 .comment-content {
-    background: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    position: relative;
-    width:100%;
+    max-width: calc(100% - 44px);
 }
 
 .username {
     font-weight: bold;
-    font-size: 10px;
-    display: block;
+    margin-right: 8px;
 }
 
 .comment-text {
-    margin: 5px 0;
-}
-
-.comment-footer {
-    font-size: 12px;
-    color: #999;
-}
-
-.reply {
-    cursor: pointer;
-    color: #007bff;
-}
-
-.reply:hover {
-    text-decoration: underline;
-}
-
-.replies {
-    margin-left: 50px;
-    margin-top: 10px;
-    display: none;
-}
-
-.reply-comment {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f0f8ff;
-    padding: 5px;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.un-bottom-navigation {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: rgba(255, 255, 255, 0.8);
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-}
-
-.form-control {
-    width: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 10px;
-    box-sizing: border-box;
-}
-
-.ico {
-    display: inline-block;
-    vertical-align: middle;
-    cursor: pointer;
-}
-
-#loading-message {
-    display: none;
-    text-align: center;
-    padding: 20px;
+    color: #262626;
 }
 
 .video-cover {
