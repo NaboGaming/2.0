@@ -195,18 +195,29 @@ async function handleUserSession(user) {
     });
 }
 
-// Function to sign out previous session
-async function signOutPreviousSession(uid, previousSessionId) {
-    const previousSessionRef = ref(db, `sessions/${uid}`);
-    await set(previousSessionRef, null);
+// Function to sign out and remove all sessions, then delete the account
+async function signOutPreviousSession(uid) {
+    const userSessionsRef = ref(db, `sessions/${uid}`);
+    const sessionSnapshot = await get(userSessionsRef);
+    if (sessionSnapshot.exists()) {
+        // Remove all sessions
+        await set(userSessionsRef, null);
+    }
+    
+    // Notify the user
     alert('You have been signed out because your account was logged in from another location.');
+    
+    // Delete the current user
     const currentUser = getAuth().currentUser;
     if (currentUser) {
         await deleteUser(currentUser);
     }
+
+    // Redirect to index.html
+    window.location.href = 'index.html';
 }
 
-// Function to remove session
+// Function to remove a specific session
 async function removeSession(uid, sessionId) {
     const userSessionRef = ref(db, `sessions/${uid}`);
     const sessionSnapshot = await get(userSessionRef);
@@ -214,6 +225,7 @@ async function removeSession(uid, sessionId) {
         await set(userSessionRef, null);
     }
 }
+
 
 // Wait for the DOM to be fully loaded before accessing the file input element
 document.addEventListener('DOMContentLoaded', () => {
