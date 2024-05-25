@@ -849,179 +849,175 @@ descriptionElement.textContent = videoDescription;
 
 </script>
 <script type="module">
-   document.addEventListener('DOMContentLoaded', () => {
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-    import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+        import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
-        authDomain: "register-71bde.firebaseapp.com",
-        projectId: "register-71bde",
-        storageBucket: "register-71bde.appspot.com",
-        messagingSenderId: "412548441298",
-        appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
+            authDomain: "register-71bde.firebaseapp.com",
+            projectId: "register-71bde",
+            storageBucket: "register-71bde.appspot.com",
+            messagingSenderId: "412548441298",
+            appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const auth = getAuth(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const auth = getAuth(app);
 
-    let replyingTo = null;
+        let replyingTo = null;
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            document.getElementById('send-comment').addEventListener('click', () => {
-                const commentText = document.getElementById('comment-input').value;
-                if (commentText.trim()) {
-                    sendComment(user, commentText);
-                    document.getElementById('comment-input').value = '';
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                document.getElementById('send-comment').addEventListener('click', () => {
+                    const commentText = document.getElementById('comment-input').value;
+                    if (commentText.trim()) {
+                        sendComment(user, commentText);
+                        document.getElementById('comment-input').value = '';
+                    }
+                });
+
+                loadComments();
+            }
+        });
+
+        function sendComment(user, commentText) {
+            const commentsRef = ref(db, replyingTo ? `comments/${replyingTo}/replies` : 'comments');
+            const newCommentRef = push(commentsRef);
+            const timestamp = new Date().toISOString();
+
+            set(newCommentRef, {
+                username: user.displayName,
+                text: commentText,
+                time: timestamp,
+                photoURL: user.photoURL,
+                replyingTo: replyingTo ? replyingTo : null
+            });
+
+            replyingTo = null;
+        }
+
+        function loadComments() {
+            const commentsRef = ref(db, 'comments');
+            const loadingMessage = document.getElementById('loading-message');
+            const commentsSection = document.getElementById('comment-section');
+
+            loadingMessage.style.display = 'block';
+            commentsSection.innerHTML = ''; // Clear the comments section
+
+            onValue(commentsRef, (snapshot) => {
+                loadingMessage.style.display = 'none'; // Hide loading message when data is received
+                const comments = snapshot.val();
+                for (let id in comments) {
+                    const comment = comments[id];
+                    const commentElement = createCommentElement(comment, id);
+                    commentsSection.appendChild(commentElement);
                 }
             });
-
-            loadComments();
         }
-    });
 
-    function sendComment(user, commentText) {
-        const commentsRef = ref(db, replyingTo ? `comments/${replyingTo}/replies` : 'comments');
-        const newCommentRef = push(commentsRef);
-        const timestamp = new Date().toISOString();
-
-        set(newCommentRef, {
-            username: user.displayName,
-            text: commentText,
-            time: timestamp,
-            photoURL: user.photoURL,
-            replyingTo: replyingTo ? replyingTo : null
-        });
-
-        replyingTo = null;
-    }
-
-    function loadComments() {
-        const commentsRef = ref(db, 'comments');
-        const loadingMessage = document.getElementById('loading-message');
-        const commentsSection = document.getElementById('comment-section');
-
-        loadingMessage.style.display = 'block';
-        commentsSection.innerHTML = ''; // Clear the comments section
-
-        onValue(commentsRef, (snapshot) => {
-            loadingMessage.style.display = 'none'; // Hide loading message when data is received
-            const comments = snapshot.val();
-            for (let id in comments) {
-                const comment = comments[id];
-                const commentElement = createCommentElement(comment, id);
-                commentsSection.appendChild(commentElement);
+        function createCommentElement(comment, commentId, isReply = false) {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+            if (isReply) {
+                commentDiv.classList.add('reply-comment');
             }
-        });
-    }
 
-    function createCommentElement(comment, commentId, isReply = false) {
-        const commentDiv = document.createElement('div');
-        commentDiv.classList.add('comment');
-        if (isReply) {
-            commentDiv.classList.add('reply-comment');
-        }
+            const profilePic = document.createElement('img');
+            profilePic.src = comment.photoURL;
+            profilePic.alt = comment.username;
+            profilePic.classList.add('profile-pic');
 
-        const profilePic = document.createElement('img');
-        profilePic.src = comment.photoURL;
-        profilePic.alt = comment.username;
-        profilePic.classList.add('profile-pic');
+            const commentContent = document.createElement('div');
+            commentContent.classList.add('comment-content');
 
-        const commentContent = document.createElement('div');
-        commentContent.classList.add('comment-content');
+            const usernameSpan = document.createElement('span');
+            usernameSpan.classList.add('username');
+            usernameSpan.textContent = comment.username;
 
-        const usernameSpan = document.createElement('span');
-        usernameSpan.classList.add('username');
-        usernameSpan.textContent = comment.username;
+            const commentTextSpan = document.createElement('span');
+            commentTextSpan.classList.add('comment-text');
+            commentTextSpan.textContent = comment.text;
 
-        const commentTextSpan = document.createElement('span');
-        commentTextSpan.classList.add('comment-text');
-        commentTextSpan.textContent = comment.text;
+            const commentFooter = document.createElement('div');
+            commentFooter.classList.add('comment-footer');
 
-        const commentFooter = document.createElement('div');
-        commentFooter.classList.add('comment-footer');
+            const timeSpan = document.createElement('span');
+            timeSpan.classList.add('time');
+            timeSpan.textContent = formatTime(comment.time);
 
-        const timeSpan = document.createElement('span');
-        timeSpan.classList.add('time');
-        timeSpan.textContent = formatTime(comment.time);
-
-        const replyButton = document.createElement('span');
-        replyButton.classList.add('reply');
-        replyButton.textContent = 'Reply';
-        replyButton.addEventListener('click', () => {
-            replyingTo = commentId;
-            document.getElementById('comment-input').focus();
-            document.getElementById('comment-input').value = `@${comment.username} `;
-        });
-
-        commentFooter.appendChild(timeSpan);
-        commentFooter.appendChild(replyButton);
-
-        commentContent.appendChild(usernameSpan);
-        commentContent.appendChild(commentTextSpan);
-        commentContent.appendChild(commentFooter);
-
-        commentDiv.appendChild(profilePic);
-        commentDiv.appendChild(commentContent);
-
-        if (comment.replies) {
-            const repliesDiv = document.createElement('div');
-            repliesDiv.classList.add('replies');
-
-            const toggleRepliesButton = document.createElement('button');
-            toggleRepliesButton.classList.add('toggle-replies');
-            toggleRepliesButton.textContent = `View ${Object.keys(comment.replies).length} Replies`;
-            toggleRepliesButton.addEventListener('click', () => {
-                repliesDiv.classList.toggle('hidden');
+            const replyButton = document.createElement('span');
+            replyButton.classList.add('reply');
+            replyButton.textContent = 'Reply';
+            replyButton.addEventListener('click', () => {
+                replyingTo = commentId;
+                document.getElementById('comment-input').focus();
+                document.getElementById('comment-input').value = `@${comment.username} `;
             });
 
-            commentDiv.appendChild(toggleRepliesButton);
-            repliesDiv.classList.add('hidden');
+            commentFooter.appendChild(timeSpan);
+            commentFooter.appendChild(replyButton);
 
-            for (let replyId in comment.replies) {
-                const reply = comment.replies[replyId];
-                const replyElement = createCommentElement(reply, replyId, true);
-                repliesDiv.appendChild(replyElement);
+            commentContent.appendChild(usernameSpan);
+            commentContent.appendChild(commentTextSpan);
+            commentContent.appendChild(commentFooter);
+
+            commentDiv.appendChild(profilePic);
+            commentDiv.appendChild(commentContent);
+
+            if (comment.replies) {
+                const repliesDiv = document.createElement('div');
+                repliesDiv.classList.add('replies');
+
+                const toggleRepliesButton = document.createElement('button');
+                toggleRepliesButton.classList.add('toggle-replies');
+                toggleRepliesButton.textContent = `View ${Object.keys(comment.replies).length} Replies`;
+                toggleRepliesButton.addEventListener('click', () => {
+                    repliesDiv.classList.toggle('hidden');
+                });
+
+                repliesDiv.classList.add('hidden');
+                commentDiv.appendChild(toggleRepliesButton);
+
+                for (let replyId in comment.replies) {
+                    const reply = comment.replies[replyId];
+                    const replyElement = createCommentElement(reply, replyId, true);
+                    repliesDiv.appendChild(replyElement);
+                }
+                commentDiv.appendChild(repliesDiv);
             }
 
-            commentDiv.appendChild(repliesDiv);
+            return commentDiv;
         }
 
-        return commentDiv;
-    }
+        function formatTime(timestamp) {
+            const now = new Date();
+            const time = new Date(timestamp);
+            const diffInSeconds = Math.floor((now - time) / 1000);
+            const diffInMinutes = Math.floor(diffInSeconds / 60);
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const diffInDays = Math.floor(diffInHours / 24);
+            const diffInWeeks = Math.floor(diffInDays / 7);
+            const diffInMonths = Math.floor(diffInDays / 30);
+            const diffInYears = Math.floor(diffInDays / 365);
 
-    function formatTime(timestamp) {
-        const now = new Date();
-        const time = new Date(timestamp);
-        const diffInSeconds = Math.floor((now - time) / 1000);
-        const diffInMinutes = Math.floor(diffInSeconds / 60);
-        const diffInHours = Math.floor(diffInMinutes / 60);
-        const diffInDays = Math.floor(diffInHours / 24);
-        const diffInWeeks = Math.floor(diffInDays / 7);
-        const diffInMonths = Math.floor(diffInDays / 30);
-        const diffInYears = Math.floor(diffInDays / 365);
-
-        if (diffInSeconds < 60) {
-            return 'just now';
-        } else if (diffInMinutes < 60) {
-            return `${diffInMinutes}m`;
-        } else if (diffInHours < 24) {
-            return `${diffInHours}h`;
-        } else if (diffInDays < 7) {
-            return `${diffInDays}d`;
-        } else if (diffInWeeks < 4) {
-            return `${diffInWeeks}w`;
-        } else if (diffInMonths < 12) {
-            return `${diffInMonths}mo`;
-        } else {
-            return `${diffInYears}y`;
+            if (diffInSeconds < 60) {
+                return 'just now';
+            } else if (diffInMinutes < 60) {
+                return `${diffInMinutes}m`;
+            } else if (diffInHours < 24) {
+                return `${diffInHours}h`;
+            } else if (diffInDays < 7) {
+                return `${diffInDays}d`;
+            } else if (diffInWeeks < 4) {
+                return `${diffInWeeks}w`;
+            } else if (diffInMonths < 12) {
+                return `${diffInMonths}mo`;
+            } else {
+                return `${diffInYears}y`;
+            }
         }
-    }
-});
-
     </script>
 </body>
 
