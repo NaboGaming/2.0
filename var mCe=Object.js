@@ -133,8 +133,8 @@ function handleFileUpload(selectedFile) {
                     updateProfile(user, {
                         photoURL: downloadURL
                     }).then(() => {
-                        // Update UI with the new profile picture
-                        console.log('Profile picture updated successfully:', downloadURL);
+                        // Auto-refresh the page
+                        location.reload();
                     }).catch((error) => {
                         console.error('Error updating profile picture:', error);
                     });
@@ -162,7 +162,22 @@ function main() {
 // Wait for the DOM to be fully loaded before accessing the file input element
 document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input'); // Assuming you have an input element with id 'file-input'
+    const profilePicture = document.getElementById('karibupicha');
+
     if (fileInput) {
+        // Hide the file input element
+        fileInput.style.display = 'none';
+
+        // Add click event listener to the profile picture
+        if (profilePicture) {
+            profilePicture.addEventListener('click', () => {
+                fileInput.click();
+            });
+        } else {
+            console.warn("Element with ID 'karibupicha' not found.");
+        }
+
+        // Add change event listener to the file input element
         fileInput.addEventListener('change', (event) => {
             const selectedFile = event.target.files[0];
             if (selectedFile) {
