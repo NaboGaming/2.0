@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
 import { getDatabase, ref, set, get, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
-import "https://www.gstatic.com/firebasejs/10.7.2/firebase-storage.js"; // Import Firebase Storage module
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-storage.js"; // Import Firebase Storage module
 
 const firebaseConfig = {
     apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
@@ -110,10 +110,10 @@ async function setupAllLikeButtons(username) {
 
 // Function to handle file upload to Firebase Storage
 function handleFileUpload(selectedFile) {
-    const storage = firebase.storage();
+    const storage = getStorage();
     const fileName = `${Date.now()}_${selectedFile.name}`;
-    const storageRef = storage.ref().child('profilePictures/' + fileName);
-    const uploadTask = storageRef.put(selectedFile);
+    const storageReference = storageRef(storage, 'profilePictures/' + fileName);
+    const uploadTask = uploadBytesResumable(storageReference, selectedFile);
 
     uploadTask.on('state_changed',
         (snapshot) => {
@@ -125,15 +125,14 @@ function handleFileUpload(selectedFile) {
         },
         () => {
             // Handle successful upload
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 // Update user's profile picture URL in Firebase Authentication
-                const user = firebase.auth().currentUser;
+                const user = getAuth().currentUser;
                 if (user) {
                     user.updateProfile({
                         photoURL: downloadURL
                     }).then(() => {
                         // Update UI with the new profile picture
-                        // You can update the UI elements here
                         console.log('Profile picture updated successfully:', downloadURL);
                     }).catch((error) => {
                         console.error('Error updating profile picture:', error);
@@ -159,13 +158,19 @@ function main() {
     });
 }
 
-// Add event listener to file input for handling file upload
-const fileInput = document.getElementById('file-input'); // Assuming you have an input element with id 'file-input'
-fileInput.addEventListener('change', (event) => {
-    const selectedFile = event.target.files[0];
-    if (selectedFile) {
-        handleFileUpload(selectedFile);
+// Wait for the DOM to be fully loaded before accessing the file input element
+document.addEventListener('DOMContentLoaded', () => {
+    const fileInput = document.getElementById('file-input'); // Assuming you have an input element with id 'file-input'
+    if (fileInput) {
+        fileInput.addEventListener('change', (event) => {
+            const selectedFile = event.target.files[0];
+            if (selectedFile) {
+                handleFileUpload(selectedFile);
+            }
+        });
+    } else {
+        console.warn("Element with ID 'file-input' not found.");
     }
-});
 
-main();
+    main();
+});
