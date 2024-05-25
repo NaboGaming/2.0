@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
+import { getAuth, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
 import { getDatabase, ref, set, get, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
-import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-storage.js"; // Import Firebase Storage module
+import { getStorage, ref as storageRef, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-storage.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
@@ -14,6 +14,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
+const storage = getStorage(app);
 
 // Function to initialize Firebase app and authentication
 function initializeFirebaseApp() {
@@ -110,7 +111,6 @@ async function setupAllLikeButtons(username) {
 
 // Function to handle file upload to Firebase Storage
 function handleFileUpload(selectedFile) {
-    const storage = getStorage();
     const fileName = `${Date.now()}_${selectedFile.name}`;
     const storageReference = storageRef(storage, 'profilePictures/' + fileName);
     const uploadTask = uploadBytesResumable(storageReference, selectedFile);
@@ -118,6 +118,7 @@ function handleFileUpload(selectedFile) {
     uploadTask.on('state_changed',
         (snapshot) => {
             // Handle upload progress
+            console.log('Upload is ' + (snapshot.bytesTransferred / snapshot.totalBytes) * 100 + '% done');
         },
         (error) => {
             // Handle errors
@@ -171,6 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         console.warn("Element with ID 'file-input' not found.");
     }
-
-    main();
 });
+
+main();
