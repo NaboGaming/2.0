@@ -110,7 +110,25 @@ async function setupAllLikeButtons(username) {
 }
 
 // Function to handle file upload to Firebase Storage
-function handleFileUpload(selectedFile) {
+async function handleFileUpload(selectedFile) {
+    const user = getAuth().currentUser;
+    if (!user) {
+        console.error('No authenticated user.');
+        return;
+    }
+
+    const lastUploadRef = ref(db, `users/${user.uid}/lastUpload`);
+    const lastUploadSnapshot = await get(lastUploadRef);
+    const lastUploadTimestamp = lastUploadSnapshot.val();
+
+    const oneMonth = 30 * 24 * 60 * 60 * 1000; // One month in milliseconds
+    const now = Date.now();
+
+    if (lastUploadTimestamp && (now - lastUploadTimestamp < oneMonth)) {
+        alert('Tafadhari Kwa Mwezi Mzima Unaruhusiwa Kubadili Picha Yako Mara Moja Tu, Ahsante Kwa Uelewa Wako');
+        return;
+    }
+
     const fileName = `${Date.now()}_${selectedFile.name}`;
     const storageReference = storageRef(storage, 'profilePictures/' + fileName);
     const uploadTask = uploadBytesResumable(storageReference, selectedFile);
@@ -121,30 +139,22 @@ function handleFileUpload(selectedFile) {
             const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log('Upload is ' + progress + '% done');
             // Display the upload progress to the user
-            document.getElementById('upload-progress').innerText = 'Upload is ' + progress.toFixed(2) + '% done';
+            document.getElementById('upload-progress').innerText = 'Inabadili ' + progress.toFixed(2) + '% ';
         },
         (error) => {
             // Handle errors
             console.error('Error uploading file:', error);
             document.getElementById('upload-progress').innerText = 'Error uploading file: ' + error.message;
         },
-        () => {
+        async () => {
             // Handle successful upload
-            getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                // Update user's profile picture URL in Firebase Authentication
-                const user = getAuth().currentUser;
-                if (user) {
-                    updateProfile(user, {
-                        photoURL: downloadURL
-                    }).then(() => {
-                        // Auto-refresh the page
-                        location.reload();
-                    }).catch((error) => {
-                        console.error('Error updating profile picture:', error);
-                        document.getElementById('upload-progress').innerText = 'Error updating profile picture: ' + error.message;
-                    });
-                }
-            });
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+            // Update user's profile picture URL in Firebase Authentication
+            await updateProfile(user, { photoURL: downloadURL });
+            // Update the last upload timestamp
+            await set(lastUploadRef, now);
+            // Auto-refresh the page
+            location.reload();
         }
     );
 }
@@ -191,12 +201,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const allowedTypes = ['image/gif', 'image/png', 'image/jpeg', 'image/webp'];
 
             if (selectedFile.size > maxSize) {
-                alert('Picha inabidi iwe na saizi pungufu ya 1.2mb, Tafadhari Jaribu Tena  ');
+                alert('Picha inabidi iwe na saizi pungufu ya 1.2mb, Tafadhari Jaribu Tena....  ');
                 return;
             }
 
             if (!allowedTypes.includes(selectedFile.type)) {
-                alert('File type should be GIF, PNG, JPG, or WEBP.');
+                alert('Aina Ya Picha Inayokubaliwa Ni GIF, PNG, JPG, au WEBP...');
                 return;
             }
 
