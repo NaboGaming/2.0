@@ -1,53 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>Firebase Performance Optimization</title>
-  <script defer type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-    import { getDatabase, ref, query, limitToFirst, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
-    
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
-      authDomain: "register-71bde.firebaseapp.com",
-      projectId: "register-71bde",
-      storageBucket: "register-71bde.appspot.com",
-      messagingSenderId: "412548441298",
-      appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b"
-    };
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, viewport-fit=cover" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="format-detection" content="telephone=no">
+<title>NaboGaming 2.0</title>
+<meta name="description" content="Unic – NFT Marketplace PWA Mobile Template">
+<meta name="keywords"
+content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, cordova, phonegap, mobile, html, nft, store, marketplace, pwa" />
+<!-- FAVICON -->
+<link rel="icon" type="image/png" href="images/favicon/icon-32x32.png" sizes="32x32">
+<!-- IOS SUPPORT -->
+<link rel="apple-touch-icon" href="images/favicon/icon-96x96.png">
+<!-- CSS FILES -->
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/remixicon.min.css">
+<link rel="stylesheet" href="assets/vendors/swiper/swiper-bundle.min.css">
+<link rel="stylesheet" href="assets/vendors/zuck_stories/zuck.min.css">
+<link rel="manifest" href="_manifest.json" />
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getDatabase(app);
-
-    // Handle authentication state
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("User is signed in:", user);
-        fetchData();
-      } else {
-        console.log("No user is signed in.");
-      }
-    });
-
-    // Fetch data efficiently
-    function fetchData() {
-      const dbRef = ref(db, 'path/to/data');
-      const dbQuery = query(dbRef, limitToFirst(10));
-      onValue(dbQuery, (snapshot) => {
-        const data = snapshot.val();
-        console.log("Fetched data:", data);
-        // Process data
-      }, (error) => {
-        console.error("Error fetching data:", error);
-      });
-    }
-  </script>
 </head>
-<body>
-  <div id="content">Loading...</div>
-</body>
-</html>
 
+<body>
+<!-- ===================================
+START LODAER PAGE
+==================================== -->
+<section class="loader-page" id="loaderPage">
+<div class="spinner_flash"></div>
+</section>
+<!-- START WRAPPER -->
+<div id="wrapper">
+<!-- START CONTENT -->
+<div id="content">
+<!-- ===================================
+START THE HEADER
+==================================== -->
+<header class="default heade-sticky">
+<div class="un-title-page go-back">
+<h1>NaboGaming 2.0</h1>
+</div>
+<div class="un-block-right">
+<a href="#" class="whatsapp btn btn-box-icon text-dark">
+<i class="ri-whatsapp-line"></i>
+</a>
+</div>
+</header>
+<!-- ===================================
+START THE SPACE STICKY
+==================================== -->
+<div class="space-sticky"></div>
+<!-- ===================================
+START THE BRAND
+==================================== -->
+<section class="un-brand-about margin-t-10">
+<img src="logo2.gif" width="65" height="65" alt="" style="border-radius: 50%;">
+<img src="images/avatar/5.png" width="55" height="55" alt="" style="border-radius: 50%;">
+<img src="kiongozi.PNG" width="55" height="55" alt="" style="border-radius: 50%;">
+<img src="images/avatar/avatar.png" id="menupicha" width="55" height="55" alt="" style="border-radius: 50%;">
+<p class="margin-t-10"><span>Nabob </span> In NaboGaming - Version 2.0.0</p>
+</section>
+<!-- ===================================
+START THE DESCRIPTION
+==================================== -->
+<section class="about-section">
+<div class="descriptio">
+<h2>Karibu NaboGaming 2.0</h2>
+<p>
+Katika Version Hii Mpya Tumekurahisishia Muonekano Wa Website Mara Baada Ya Kujiunga, Na Sasa Unaweza Badili Profile Picha Yako Mara Moja Kwa Mwezi Na Pia Unaweza Kuona Mabadiliko Mengine Kama,
+</p>
+</div>
+<div class="un-navMenu-default without-icon py-0">
+<ul class="nav flex-column">
+<li class="nav-item">
+<a class="nav-link" href="mitaa.html">
+<div class="item-content-link">
+<h3 class="link-title">Mtaa Kwa Mtaa</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="gameon.html">
+<div class="item-content-link">
+<h3 class="link-title">GameOn - StreaminG</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-drop-right-line"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="dashmain.html">
+<div class="item-content-link">
+<h3 class="link-title">Rudi Nyumbani</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-right-up-line size-18"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item">
+<a class="nav-link" href="sheria.html">
+<div class="item-content-link">
+<h3 class="link-title">Sheria NaboGaming</h3>
+</div>
+<div class="other-cc">
+<span class="badge-text"></span>
+<div class="icon-arrow">
+<i class="ri-arrow-right-up-line size-18"></i>
+</div>
+</div>
+</a>
+</li>
+<li class="nav-item">
+  <a class="nav-link" href="javascript:void(0)" style="color: white;background-color: black;">
+  <div class="item-content-link">
+  <h3 class="link-title" style="color: white;">Jiunge Na Tiktok Account Yetu </h3>
+  </div>
+  <div class="other-cc">
+  <span class="badge-text"></span>
+  <div class="icon-arrow">
+    <img src="tiktok.png" height="20" width="20">
+  </div>
+  </div>
+  </a>
+  </li>
+</ul>
+</div>
+</section>
+<!-- ===================================
+START THE COPYRIGHT MARK
+==================================== -->
+<section class="copyright-mark margin-t-2">
+  <div class="content">
+  <img class="logo-gray" src="nabo.jpg" alt="image">
+  <p class="margin-b-2">Tufollow Kurasa Zetu Sasa</p>
+  </div>
+  <ul class="nav social-networks-footer">
+  <a class="nav-link" href="https://www.facebook.com/profile.php?id=100064191845973">
+  <i class="ri-facebook-circle-fill"></i>
+  </a>
+  <a class="nav-link" href="javascript: void(0)">
+  <img src="instagram.svg" height="18" width="18">
+  </a>
+  <a class="nav-link" href="javascript: void(0)">
+  <i class="ri-youtube-fill" style="color: red;"></i>
+  </a>
+  <a class="nav-link" href="javascript: void(0)">
+  <img src="tiktok.png" height="20" width="20">
+  </a>
+  </ul>
+  </section>
+</div>
+</div>
+
+<!-- ===================================
+START STATUS CONNECTION
+==================================== -->
+<div class="d-flex justify-content-center">
+<div class="toast status-connection" role="alert" aria-live="assertive" aria-atomic="true"></div>
+</div>
+
+
+
+<!-- JS FILES -->
+<script src="assets/vendors/zuck_stories/zuck.min.js"></script>
+<script src="assets/vendors/smoothscroll/smoothscroll.min.js"></script>
+<script src="assets/vendors/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendors/nouislider/nouislider.min.js"></script>
+<script src="assets/vendors/nouislider/wNumb.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="var mCe=Object.js"></script>
+<script src="assets/js/custom.js"></script>
+<!-- PWA APP SERVICE REGISTRATION AND WORKS JS -->
+<script src="assets/js/pwa-services.js"></script>
+</body>
+
+</html>
