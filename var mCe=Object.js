@@ -125,7 +125,7 @@ async function handleFileUpload(selectedFile) {
     const now = Date.now();
 
     if (lastUploadTimestamp && (now - lastUploadTimestamp < oneMonth)) {
-        alert('You can only upload a picture once per month.');
+        alert('Huduma Ya Ubadilishaji Profile Picha Unfanyika Mara Moja Tu Kwa Mwezi, Tafadhari Subiri Mwezi Upite Na Ujalibu tena');
         return;
     }
 
@@ -174,58 +174,6 @@ async function main() {
         }
     });
 }
-
-// Function to handle user session
-async function handleUserSession(user) {
-    const sessionId = `${user.uid}_${Date.now()}`;
-    const userSessionRef = ref(db, `sessions/${user.uid}`);
-    const sessionSnapshot = await get(userSessionRef);
-
-    if (sessionSnapshot.exists()) {
-        const previousSessionId = sessionSnapshot.val().sessionId;
-        if (previousSessionId !== sessionId) {
-            await signOutPreviousSession(user.uid, previousSessionId);
-        }
-    }
-
-    await set(userSessionRef, { sessionId });
-
-    window.addEventListener('beforeunload', () => {
-        removeSession(user.uid, sessionId);
-    });
-}
-// Function to sign out and remove all sessions, then delete the account
-async function signOutPreviousSession(uid) {
-    const userSessionsRef = ref(db, `sessions/${uid}`);
-    const sessionSnapshot = await get(userSessionsRef);
-    if (sessionSnapshot.exists()) {
-        // Remove all sessions
-        await set(userSessionsRef, null);
-    }
-    
-    // Notify the user
-    alert('You have been signed out because your account was logged in from another location.');
-    
-    // Delete the current user
-    const currentUser = getAuth().currentUser;
-    if (currentUser) {
-        await deleteUser(currentUser);
-    }
-
-    // Redirect to index.html
-    window.location.href = 'index.html';
-}
-
-// Function to remove a specific session
-async function removeSession(uid, sessionId) {
-    const userSessionRef = ref(db, `sessions/${uid}`);
-    const sessionSnapshot = await get(userSessionRef);
-    if (sessionSnapshot.exists() && sessionSnapshot.val().sessionId === sessionId) {
-        await set(userSessionRef, null);
-    }
-}
-
-
 // Wait for the DOM to be fully loaded before accessing the file input element
 document.addEventListener('DOMContentLoaded', () => {
     const fileInput = document.getElementById('file-input'); // Assuming you have an input element with id 'file-input'
