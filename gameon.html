@@ -708,6 +708,44 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const auth = getAuth(app);
+function displayUserInfo(user) {
+    const displayName = user.displayName.split(' ')[0];
+    const email = user.email;
+    const photoURL = user.photoURL;
+    const username = user.displayName;
+    const uid = user.uid.substring(0, 5);
+
+    function updateElementText(id, text) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.innerText = text;
+        } else {
+            console.warn(`Element with ID '${id}' not found.`);
+        }
+    }
+
+    function updateElementSrc(id, src) {
+        const element = document.getElementById(id);
+        if (element) {
+            element.src = src;
+        } else {
+            console.warn(`Element with ID '${id}' not found.`);
+        }
+    }
+
+    updateElementText("displayName", displayName);
+    updateElementText("karibujina", displayName);
+    updateElementText("pubgjina", displayName);
+    updateElementText("jinamtaa", displayName);
+    updateElementText("email", email);
+    updateElementText("karibuemail", email);
+    updateElementSrc("profilePicture", photoURL);
+    updateElementSrc("menupicha", photoURL);
+    updateElementSrc("karibupicha", photoURL);
+    updateElementText("userId", uid);
+
+    return username;
+}
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -775,6 +813,15 @@ function createCommentElement(comment) {
     timeSpan.classList.add('time');
     timeSpan.textContent = formatTime(comment.time);
 
+    const replyButton = document.createElement('button');
+    replyButton.classList.add('reply-button');
+    replyButton.textContent = 'Reply';
+    replyButton.addEventListener('click', () => {
+        if (comment.username !== auth.currentUser.displayName) {
+            document.getElementById('comment-input').value = `@${comment.username} `;
+        }
+    });
+
     const commentTextSpan = document.createElement('span');
     commentTextSpan.classList.add('comment-text');
     commentTextSpan.textContent = comment.text;
@@ -784,6 +831,7 @@ function createCommentElement(comment) {
 
     commentFooter.appendChild(usernameSpan);
     commentFooter.appendChild(timeSpan);
+    commentFooter.appendChild(replyButton);
 
     commentContent.appendChild(commentFooter);
     commentContent.appendChild(commentTextSpan);
