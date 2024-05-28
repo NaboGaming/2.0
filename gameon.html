@@ -692,7 +692,7 @@ descriptionElement.textContent = videoDescription;
 
 </script>
 <script type="module">
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
@@ -775,10 +775,13 @@ function createCommentElement(comment) {
     timeSpan.classList.add('time');
     timeSpan.textContent = formatTime(comment.time);
 
-    const replyButton = document.createElement('button');
-    replyButton.classList.add('reply-button');
-    replyButton.textContent = 'Reply';
-    replyButton.addEventListener('click', () => {
+    const replyLink = document.createElement('span');
+    replyLink.classList.add('reply-link');
+    replyLink.textContent = 'Reply';
+    replyLink.style.cursor = 'pointer';
+    replyLink.style.color = 'blue';
+    replyLink.style.textDecoration = 'underline';
+    replyLink.addEventListener('click', () => {
         if (comment.username !== auth.currentUser.displayName) {
             document.getElementById('comment-input').value = `@${comment.username} `;
         }
@@ -793,7 +796,7 @@ function createCommentElement(comment) {
 
     commentFooter.appendChild(usernameSpan);
     commentFooter.appendChild(timeSpan);
-    commentFooter.appendChild(replyButton);
+    commentFooter.appendChild(replyLink);
 
     commentContent.appendChild(commentFooter);
     commentContent.appendChild(commentTextSpan);
@@ -852,7 +855,7 @@ function loadNotifications(user) {
         if (unreadComments > 0) {
             document.getElementById('notification').innerText = `You have ${unreadComments} unread comments. Check them out!`;
         } else {
-            document.getElementById('notification').innerText = '';
+            document.getElementById('notification').innerText = 'no new comment';
         }
     });
 }
