@@ -100,4 +100,35 @@ const _0x38179e = _0x521b;
                 'spaceBetween': 0x14
             },
             0x500: {
+                            0x500: {
+                'slidesPerView': 0x2,
+                'spaceBetween': 0x14
+            }
+        }
+    });
+
+    _0x432478 = new Swiper(_0x5a8b5a(0xdd), {
+        'spaceBetween': 0xf,
+        'loop': true,
+        'breakpoints': {
+            0x140: {
+                'slidesPerView': 0x1,
+                'spaceBetween': 0x14
+            },
+            0x300: {
+                'slidesPerView': 0x2,
+                'spaceBetween': 0x1e
+            },
+            0x3e0: {
+                'slidesPerView': 0x2,
+                'spaceBetween': 0x14
+            },
+            0x500: {
+                'slidesPerView': 0x2,
+                'spaceBetween': 0x14
+            }
+        }
+    });
+});
+
                
