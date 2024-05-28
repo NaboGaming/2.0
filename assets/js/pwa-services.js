@@ -1,4 +1,3 @@
-<script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             navigator.serviceWorker.register('/2.0/service-worker.js').then(function(registration) {
@@ -8,4 +7,3 @@
             });
         });
     }
-</script>
