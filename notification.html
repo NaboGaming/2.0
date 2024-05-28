@@ -708,6 +708,18 @@ function createCommentElement(comment) {
     timeSpan.classList.add('time');
     timeSpan.textContent = formatTime(comment.time);
 
+    const replyLink = document.createElement('span');
+    replyLink.classList.add('reply-link');
+    replyLink.textContent = 'Reply';
+    replyLink.style.cursor = 'pointer';
+    replyLink.style.color = 'blue';
+    replyLink.style.textDecoration = 'underline';
+    replyLink.addEventListener('click', () => {
+        if (comment.username !== auth.currentUser.displayName) {
+            document.getElementById('comment-input').value = `@${comment.username} `;
+        }
+    });
+
     const commentTextSpan = document.createElement('span');
     commentTextSpan.classList.add('comment-text');
     commentTextSpan.textContent = comment.text;
@@ -717,6 +729,7 @@ function createCommentElement(comment) {
 
     commentFooter.appendChild(usernameSpan);
     commentFooter.appendChild(timeSpan);
+    commentFooter.appendChild(replyLink);
 
     commentContent.appendChild(commentFooter);
     commentContent.appendChild(commentTextSpan);
