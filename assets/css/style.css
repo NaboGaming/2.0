@@ -21492,7 +21492,7 @@ header.default.header-light .un-block-right .menu-sidebar .btn svg rect {
 }
 
 .main-search-header.style-border {
-    border-bottom: 1px solid var(--gray-200)
+    border-bottom: none
 }
 
 .main-search-header .nav-tab-search {
@@ -21536,7 +21536,8 @@ header.default.header-light .un-block-right .menu-sidebar .btn svg rect {
 }
 
 .main-search-header .nav-tab-search .nav-item .nav-link.active {
-    color: var(--dark)
+    color: var(--dark);
+    font-weight: bold;
 }
 
 .main-search-header .nav-tab-search .nav-item .nav-link.active::before {
@@ -22131,8 +22132,8 @@ header.default.header-light .un-block-right .menu-sidebar .btn svg rect {
 .un-blog-list .nav .nav-item .nav-link {
     display: block;
     text-decoration: none;
-    padding: 0 20px;
-    margin-bottom: 20px
+    padding: 0 0px;
+    margin-bottom: 0px
 }
 
 .un-blog-list .nav .nav-item .nav-link .image-blog {
@@ -22147,7 +22148,8 @@ header.default.header-light .un-block-right .menu-sidebar .btn svg rect {
     height: 100px;
     border-radius: 6px;
     object-fit: cover;
-    margin-right: 15px
+    margin-right: 15px;
+    margin-bottom: 0px;
 }
 
 .un-blog-list .nav .nav-item .nav-link .image-blog .text-blog h2 {
@@ -23924,4 +23926,80 @@ hr {
     text-decoration: none;
     cursor: pointer;
   }
-  
+  .comment-section {
+    background-color: #fff;
+    width: 100%;
+    border: 1px solid #dbdbdb;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 10px;
+}
+
+.comment {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 10px;
+}
+
+.profile-pic {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.comment-content {
+    max-width: calc(100% - 44px);
+}
+
+.username {
+    font-weight: bold;
+    margin-right: 8px;
+    font-size: 17px;
+}
+
+.comment-text {
+    color: #262626;
+    font-size: 14px;
+}
+
+.video-cover {
+width: 100px;
+height: 60px;
+object-fit: cover;
+display: block;
+border-radius: 4px;
+margin-bottom: 5px;
+}
+
+.youtube-video-container {
+position: sticky;
+top: 5px;
+left: 10px;
+background: black;
+overflow: hidden;
+width: 85%;
+border-radius: 10px;
+margin-bottom: 10px;
+z-index: 9999;
+}
+
+.youtube-video-container::after {
+display: block;
+content: "";
+padding-top: 56.25%;
+}
+
+.youtube-video-container video {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+}
+
+.content-above-video {
+background-color: #f9f9f9;
+padding: 20px;
+border-bottom: 1px solid #ddd;
+}  
