@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport"
@@ -25,14 +24,10 @@ const firebaseConfig = {
     appId: "1:412548441298:web:e0fb2b6c5fbd4af7d0b90b",
     measurementId: "G-0FVNTD9W48"
   };
-
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   auth.languageCode = "en";
   const provider = new GoogleAuthProvider();
-
-  // Function to handle user sign-in
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
@@ -43,16 +38,13 @@ const firebaseConfig = {
       console.error(`Error during sign-in: ${error.code} - ${error.message}`);
     }
   };
-
-  // Check if user is already signed in and redirect to dashboard
   onAuthStateChanged(auth, (user) => {
     if (user) {
       window.location.href = "dashmain.html";
     }
   });
-
-  // Attach click event listener to Google login button
   document.getElementById("google").addEventListener("click", signInWithGoogle);
+  document.getElementById("google2").addEventListener("click", signInWithGoogle);
 </script>
 
 <meta name="description" content="Unic – NFT Marketplace PWA Mobile Template">
@@ -541,7 +533,9 @@ aria-labelledby="exampleModalLabel" aria-hidden="true">
 Jiunge nasi ucheze mashindano mbalimbali, kujiunga na mitaa ya games unazocheza na vingine vingi zaidi.
 </p>
 <a id="google" class="btn btn-md-size bg-primary text-white rounded-pill">
-Jiunge Nasi Sasa
+  <div class="icon-svg">
+    <img src="images/icons/google.svg" alt="">
+    </div> &nbsp; Jiunge Nasi Sasa
 </a>
 </div>
 <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
@@ -659,13 +653,13 @@ tabindex="-1" aria-labelledby="modalShareCollectibles" aria-hidden="true">
 <div class="item-shared">
 <div class="image-items">
 <picture>
-<source srcset="images/other/1.webp" type="image/webp">
-<img class="user-img" src="images/other/1.jpg" alt="">
+<source srcset="images/avatar/5.webp" type="image/webp">
+<img class="user-img" src="images/avatar/5.png" alt="">
 </picture>
 </div>
 <div class="txt">
-<h1>Galaxy on Earth</h1>
-<p>unic.com</p>
+<h1>Nabobeatz</h1>
+<p>Social Media Guy</p>
 </div>
 </div>
 <button type="button" class="btn btnClose" data-bs-dismiss="modal" aria-label="Close">
@@ -676,32 +670,20 @@ tabindex="-1" aria-labelledby="modalShareCollectibles" aria-hidden="true">
 <div class="content-share-socials">
 
 <div class="un-navMenu-default p-0">
-
-
+  <div class="title">
+    <h3 style="text-align: left;font-size: 20px;font-weight: bold;">Jiunge Nasi Kwanza </h3>
+    <p  style="text-align: left;">
+    Bado Hujachelewa Jiunge Nasi Kwa Google Account Yako Ili Uweze Kuendelea Nasi. Taarifa Zako Zinalindwa Kikamilifu.
+    </p>
+    </div>
 <ul class="nav flex-column">
 <li class="nav-item">
-<a class="nav-link" style="background-color: black;" href="javascript: void(0)">
+<a class="nav-link" style="background-color: black;" id="google2">
 <div class="item-content-link">
 <div class="icon-svg">
 <img src="images/icons/google.svg" alt="">
 </div>
 <h3 class="link-title" style="color: white;">Tumia Google Account</h3>
-</div>
-<div class="other-cc">
-<span class="badge-text"></span>
-<div class="icon-arrow">
-<i class="ri-arrow-drop-right-line"></i>
-</div>
-</div>
-</a>
-</li>
-<li class="nav-item">
-<a class="nav-link facebook" href="javascript: void(0)" style="border:1px solid blue">
-<div class="item-content-link">
-<div class="icon-svg">
-<img src="images/icons/facebook.svg" alt="">
-</div>
-<h3 class="link-title">Tumia Facebook Account</h3>
 </div>
 <div class="other-cc">
 <span class="badge-text"></span>
