@@ -23,7 +23,7 @@ content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, co
 <link rel="stylesheet" href="assets/css/remixicon.min.css">
 <link rel="stylesheet" href="assets/vendors/swiper/swiper-bundle.min.css">
 <link rel="stylesheet" href="assets/vendors/zuck_stories/zuck.min.css">
-<link rel="manifest" href="_manifest.json" />
+<link rel="manifest" href="manifest.json" />
 
 </head>
 
@@ -625,7 +625,7 @@ START STATUS CONNECTION
 
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
@@ -715,8 +715,13 @@ function createCommentElement(comment) {
     replyLink.style.color = 'blue';
     replyLink.style.textDecoration = 'underline';
     replyLink.addEventListener('click', () => {
+        console.log('Reply link clicked for:', comment.username); // Debugging output
         if (comment.username !== auth.currentUser.displayName) {
-            document.getElementById('comment-input').value = `@${comment.username} `;
+            const commentInput = document.getElementById('comment-input');
+            const currentText = commentInput.value;
+            commentInput.value = `${currentText}@${comment.username} `;
+            commentInput.focus(); // Focus the input after setting the value
+            console.log('Updated input value:', commentInput.value); // Debugging output
         }
     });
 
@@ -788,7 +793,7 @@ function loadNotifications(user) {
         if (unreadComments > 0) {
             document.getElementById('notification').innerText = `You have ${unreadComments} unread comments. Check them out!`;
         } else {
-            document.getElementById('notification').innerText = '';
+            document.getElementById('notification').innerText = 'No New Notification';
         }
     });
 }
