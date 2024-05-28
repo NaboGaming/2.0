@@ -194,19 +194,18 @@ async function handleUserSession(user) {
         removeSession(user.uid, sessionId);
     });
 }
-
 // Function to sign out and remove all sessions, then delete the account
-async function signOutPreviousSession(uid, previousSessionId) {
+async function signOutPreviousSession(uid) {
     const userSessionsRef = ref(db, `sessions/${uid}`);
     const sessionSnapshot = await get(userSessionsRef);
     if (sessionSnapshot.exists()) {
         // Remove all sessions
         await set(userSessionsRef, null);
     }
-
+    
     // Notify the user
     alert('You have been signed out because your account was logged in from another location.');
-
+    
     // Delete the current user
     const currentUser = getAuth().currentUser;
     if (currentUser) {
@@ -225,6 +224,7 @@ async function removeSession(uid, sessionId) {
         await set(userSessionRef, null);
     }
 }
+
 
 // Wait for the DOM to be fully loaded before accessing the file input element
 document.addEventListener('DOMContentLoaded', () => {
@@ -258,4 +258,17 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (!allowedTypes.includes(selectedFile.type)) {
-                alert('Aina Ya Picha Inayokubalika
+                alert('Aina Ya Picha Inayokubalika Ni GIF, PNG, JPG, au WEBP.');
+                return;
+            }
+
+            if (selectedFile) {
+                handleFileUpload(selectedFile);
+            }
+        });
+    } else {
+        console.warn("Element with ID 'file-input' not found.");
+    }
+});
+
+main();
