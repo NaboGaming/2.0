@@ -788,7 +788,7 @@ descriptionElement.textContent = videoDescription;
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
-import { getDatabase, ref, push, set, onValue } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
+import { getDatabase, ref, push, set, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC_VKdV-KsIzUiOb7jFLsYXdTsuGkLiS-Q",
@@ -813,6 +813,7 @@ onAuthStateChanged(auth, (user) => {
             }
         });
         loadComments();
+        loadNotifications(user);
     }
 });
 
@@ -828,8 +829,23 @@ function sendComment(user, commentText) {
         photoURL: user.photoURL
     }).then(() => {
         console.log('Comment sent successfully');
+        incrementUnreadComments();
     }).catch((error) => {
         console.error('Error sending comment:', error);
+    });
+}
+
+function incrementUnreadComments() {
+    const usersRef = ref(db, 'users');
+    onValue(usersRef, (snapshot) => {
+        snapshot.forEach((userSnapshot) => {
+            const userId = userSnapshot.key;
+            const userUnreadCommentsRef = ref(db, `notifications/${userId}/unreadComments`);
+
+            runTransaction(userUnreadCommentsRef, (currentValue) => {
+                return (currentValue || 0) + 1;
+            });
+        });
     });
 }
 
@@ -912,6 +928,27 @@ function loadComments() {
         });
     });
 }
+
+function loadNotifications(user) {
+    const notificationsRef = ref(db, `notifications/${user.uid}/unreadComments`);
+    onValue(notificationsRef, (snapshot) => {
+        const unreadComments = snapshot.val();
+        if (unreadComments > 0) {
+            document.getElementById('notification').innerText = `You have ${unreadComments} unread comments. Check them out!`;
+        } else {
+            document.getElementById('notification').innerText = '';
+        }
+    });
+}
+
+document.getElementById('comment-section').addEventListener('click', () => {
+    const user = auth.currentUser;
+    if (user) {
+        const notificationsRef = ref(db, `notifications/${user.uid}/unreadComments`);
+        set(notificationsRef, 0);
+    }
+});
+
 </script>
 
 </body>
