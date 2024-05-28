@@ -1,0 +1,45 @@
+{
+  "name": "NaboGaming | BetPlace",
+  "short_name": "NaboGaming",
+  "start_url": "index.html",
+  "display": "standalone",
+  "scope": "./",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "description": "Cheza Games Uzipendazo Kwenye Simu Yako,Tukutaftie Ushindani Na Wachezaji Wenye Kiwango Katika Games, Na Utengeneze Historia Pia Shinda Zawadi Kibao.",
+  "categories": [
+    "NaboGaming",
+    "gaming tanzania",
+    "pubg mobile",
+    "garena freefire",
+    "bus simulator indonesia",
+    "COD mobile",
+    "call of duty",
+    "pwa",
+    "njombe",
+    "swahili",
+    "gaming",
+    "tournament"
+  ],
+  "icons": [
+    {
+      "src": "nabo.jpg",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "any"
+    },
+    {
+      "src": "logo2.gif",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "any"
+    },
+    {
+      "src": "pubgmain.jpg",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any"
+    }
+  ]
+}
