@@ -8,99 +8,12 @@ content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=5, 
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="format-detection" content="telephone=no">
-<!-- <meta name="theme-color" content="#ffffff"> -->
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222032" media="(prefers-color-scheme: dark)">
 <title>GAME_ON NaboGaming</title>
 <meta name="description" content="Unic – NFT Marketplace PWA Mobile Template">
 <meta name="keywords"
 content="bootstrap 5, mobile template, wallet, crypto, currency, about, blog, cordova, phonegap, mobile, html, nft, store, marketplace, pwa" />
-<!-- FAVICON -->
 <link rel="icon" type="image/png" href="nabo.jpg" sizes="32x32">
-<!-- IOS SUPPORT -->
 <link rel="apple-touch-icon" href="nabo.jpg">
-<!-- CSS FILES -->
-
-<style>
-.comment-section {
-    background-color: #fff;
-    width: 100%;
-    border: 1px solid #dbdbdb;
-    border-radius: 8px;
-    padding: 16px;
-}
-
-.comment {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 6px;
-}
-
-.profile-pic {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.comment-content {
-    max-width: calc(100% - 44px);
-}
-
-.username {
-    font-weight: bold;
-    margin-right: 8px;
-    font-size: 17px;
-}
-
-.comment-text {
-    color: #262626;
-    font-size: 14px;
-}
-
-.video-cover {
-width: 100px;
-height: 60px;
-object-fit: cover;
-display: block;
-border-radius: 4px;
-margin-bottom: 5px;
-}
-
-.youtube-video-container {
-position: sticky;
-top: 5px;
-left: 10px;
-background-image: url(pubgmain.jpg);
-background-size: 100%; 
-overflow: hidden;
-width: 85%;
-border-radius: 10px;
-margin-bottom: 10px;
-z-index: 9999;
-}
-
-.youtube-video-container::after {
-display: block;
-content: "";
-padding-top: 56.25%; /* 16:9 aspect ratio for responsive videos */
-}
-
-.youtube-video-container video {
-position: absolute;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-}
-
-/* Styling for the content above the video */
-.content-above-video {
-background-color: #f9f9f9;
-padding: 20px;
-border-bottom: 1px solid #ddd;
-}
-</style>
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/bootstrap-icons.css">
 <link rel="stylesheet" href="assets/css/remixicon.min.css">
@@ -167,14 +80,7 @@ Your browser does not support the video tag.
 <h3>Karibu NaboGaming BetPlace</h3>
 <p>Cheza Games Uzipendazo <span>Kwenye Simu Yako</span>,Tukutaftie  <span>Ushindani Na Wachezaji </span>Wenye Kiwango Katika Games, Na Utengeneze Historia Pia Shinda Zawadi Kibao.
 </p>
-</div>
-</div>
-
-<div class="btn-like-click">
-<div class="btnLike">
-<input type="checkbox">
-<i class="ri-heart-3-line"></i>
-<span class="count-likes">999k</span>
+<div id="notification"></div>
 </div>
 </div>
 </div>
@@ -403,13 +309,13 @@ Select one of the options to deposit <br> ETH to your wallet
 <section class="un-blog-list" style="margin-top: -19px;" id="videoList">
 <div class="content">
 <ul class="nav flex-column">
-<article class="nav-item">
+<article class="nav-item" style="margin-bottom: -20px;">
 <a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="test.mp4" data-title="NaboGaming BetPlace" data-description="Cheza Games Uzipendazo Kwenye Simu Yako,Tukutaftie Ushindani Na Wachezaji Wenye Kiwango Katika Games, Na Utengeneze Historia Pia Shinda Zawadi Kibao.">
 <div class="image-blog">
-<img src="v1.gif" alt="">
+<img src="nabo.jpg" alt=""><!--
 <div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
 <i class="ri-fire-fill" style="color: goldenrod;"></i> <span style="color: goldenrod;"> #1 Trending</span>
-</div>
+</div>-->
 <div class="text-blog">
 <h2><strong>NaboGaming </strong><br> BetPlace</h2>
 <div class="others">
@@ -426,13 +332,13 @@ Select one of the options to deposit <br> ETH to your wallet
 </div>
 </a>
 </article>
-<article class="nav-item">
+<article class="nav-item" style="margin-bottom: -20px;">
 <a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm" data-title="TDM 4vs4 PubgMobile" data-description="Shuhudia Mtanange Hapahapa NaboGaming - Tuko LIVE Tiktok Pia">
 <div class="image-blog">
 <img src="pubgmain.jpg" alt="">
 <div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
-<i class="ri-fire-fill" style="color: rgb(24, 121, 248);"></i> <span style="color: rgb(24, 121, 248);"> #2 Trending</span>
-</div>
+    <i class="bi bi-play-fill" style="color: white;"></i> <span style="color: white;">Angalia Video</span>
+    </div>
 <div class="text-blog">
 <h2><strong>TDM 4vs4</strong><br>PubgMobile</h2>
 <div class="others">
@@ -449,12 +355,12 @@ Select one of the options to deposit <br> ETH to your wallet
 </div>
 </a>
 </article>
-<article class="nav-item">
+<article class="nav-item" style="margin-bottom: -20px;">
 <a class="nav-link video-item" data-bs-dismiss="modal" data-video-src="Mzokwana feat Sims Noreng_128kbps.mp3.webm" data-title="TDM 1vs1 PubgMobile" data-description="Watch an exciting 1vs1 TDM battle in PubgMobile!">
 <div class="image-blog">
 <img src="COD.jpg" alt="">
-<div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="background-color:#000000;">
-<i class="bi bi-play-fill" style="color: white;"></i> <span style="color: white;">Angalia Hapa</span>
+<div class="btn-xs-size rounded-6 position-absolute start-1 top-1 m-4" style="border: 1px solid white;background-color:#000000;">
+<i class="bi bi-play-fill" style="color: white;"></i> <span style="color: white;">Angalia Video</span>
 </div>
 <div class="text-blog">
 <h2><strong>TDM 1vs1</strong><br>PubgMobile</h2>
