@@ -692,7 +692,7 @@ descriptionElement.textContent = videoDescription;
 
 </script>
 <script type="module">
- import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-auth.js";
 import { getDatabase, ref, push, set, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-database.js";
 
@@ -784,8 +784,11 @@ function createCommentElement(comment) {
     replyLink.addEventListener('click', () => {
         console.log('Reply link clicked for:', comment.username); // Debugging output
         if (comment.username !== auth.currentUser.displayName) {
-            document.getElementById('comment-input').value = `@${comment.username} `;
-            document.getElementById('comment-input').focus(); // Focus the input after setting the value
+            const commentInput = document.getElementById('comment-input');
+            const currentText = commentInput.value;
+            commentInput.value = `${currentText}@${comment.username} `;
+            commentInput.focus(); // Focus the input after setting the value
+            console.log('Updated input value:', commentInput.value); // Debugging output
         }
     });
 
@@ -857,7 +860,7 @@ function loadNotifications(user) {
         if (unreadComments > 0) {
             document.getElementById('notification').innerText = `You have ${unreadComments} unread comments. Check them out!`;
         } else {
-            document.getElementById('notification').innerText = 'no new comment';
+            document.getElementById('notification').innerText = 'No New Comments';
         }
     });
 }
